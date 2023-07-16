@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "sm-trendy"
+version = "0.0.1"
+description = "Retrieve google trends and store in the cloud"
+authors = ["LM <hi@leima.is>"]
+license = "GNU"
+readme = "README.md"
+packages = [{include = "sm_trendy"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytrends = "^4.9.2"
+fastapi = "^0.100.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
