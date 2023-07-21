@@ -13,6 +13,9 @@ pytrends = "^4.9.2"
 fastapi = "^0.100.0"
 loguru = "^0.7.0"
 pyarrow = "^12.0.1"
+cloudpathlib = "^0.15.1"
+click = "^8.1.6"
+python-slugify = "^8.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
@@ -21,3 +24,6 @@ pytest-mock = "^3.11.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+trendy = "sm_trendy.cli:trendy"

@@ -8,6 +8,7 @@ from typing import Dict, List, Literal, Optional, Union
 
 import pandas as pd
 import requests
+from cloudpathlib import AnyPath
 from loguru import logger
 from pytrends.request import TrendReq
 
@@ -36,6 +37,12 @@ class _TrendReq(TrendReq):
 
 class SingleTrend:
     """Get the trend for one keyword, in one country
+
+    `trends_service` can be instatiated using
+
+    ```python
+    trends_service = _TrendReq(hl="en-US", tz=120)
+    ```
 
     :param trends_service: pytrends TrendReq
     :param geo: geo code such as `"DE"`
@@ -113,7 +120,7 @@ class StoreDataFrame:
         Please stick to UTC date.
     """
 
-    def __init__(self, target_folder: Path, snapshot_date: datetime.date):
+    def __init__(self, target_folder: AnyPath, snapshot_date: datetime.date):
         self.target_folder = target_folder
 
         if not isinstance(snapshot_date, datetime.date):
@@ -161,7 +168,7 @@ class StoreDataFrame:
 
         df = trend_data.dataframe
 
-    def _file_path(self, format: Literal["parquet", "csv"]) -> Dict[str, Path]:
+    def _file_path(self, format: Literal["parquet", "csv"]) -> Dict[str, AnyPath]:
         """Compute the full path for the target file
         based on the format
 
@@ -178,7 +185,7 @@ class StoreDataFrame:
             "metadata": folder / "metadata.json",
         }
 
-    def _save_parquet(self, dataframe: pd.DataFrame, target_path: Path):
+    def _save_parquet(self, dataframe: pd.DataFrame, target_path: AnyPath):
         """save a dataframe as parquet
 
         :param dataframe: dataframe to be saved as file
@@ -186,7 +193,7 @@ class StoreDataFrame:
         """
         dataframe.to_parquet(target_path)
 
-    def _save_csv(self, dataframe: pd.DataFrame, target_path: Path):
+    def _save_csv(self, dataframe: pd.DataFrame, target_path: AnyPath):
         """save a dataframe as csv
 
         :param dataframe: dataframe to be saved as file
@@ -194,7 +201,7 @@ class StoreDataFrame:
         """
         dataframe.to_csv(target_path, index=False)
 
-    def _save_metadata(self, metadata: Dict, target_path: Path):
+    def _save_metadata(self, metadata: Dict, target_path: AnyPath):
         """save metadata as a json file
 
         :param metadata: metadata in dictionary format
