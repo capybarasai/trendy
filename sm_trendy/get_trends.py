@@ -1,12 +1,14 @@
 import contextlib
 import datetime
+import json
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, List, Literal, Optional
+from typing import Dict, List, Literal, Optional, Union
 
 import pandas as pd
 import requests
+from loguru import logger
 from pytrends.request import TrendReq
 
 
@@ -68,16 +70,16 @@ class SingleTrend:
         if not isinstance(self.keyword, str):
             raise Exception(f"Requires str as keyword input, got {type(self.keyword)}")
 
-        pytrends.build_payload(
+        self.trends_service.build_payload(
             [self.keyword], cat=self.cat, timeframe=self.timeframe, geo=self.geo
         )
 
-        df = pytrends.interest_over_time()
+        df = self.trends_service.interest_over_time()
 
         return df
 
     @cached_property
-    def metadata(self) -> Dict[str, str]:
+    def metadata(self) -> Dict[str, Union[str, int]]:
         return {
             "timestamp": self.timestamp.isoformat(),
             "keyword": self.keyword,
@@ -133,43 +135,74 @@ class StoreDataFrame:
         :param formats: which formats to save as
         """
         df = trend_data.dataframe
+        metadata = trend_data.metadata
 
         format_dispatcher = {
             "parquet": {
                 "method": self._save_parquet,
-                "path": self._path_parquet,
+                "path": self._file_path(format="parquet"),
             },
             "csv": {
                 "method": self._save_csv,
-                "path": self._path_csv,
+                "path": self._file_path(format="csv"),
             },
         }
 
-    @property
-    def _path_parquet(self) -> Path:
-        return (
-            self.target_folder
-            / "format=parquet"
-            / f"snapshot_date={self.snapshot_date.isoformat()}"
-            / "data.parquet"
-        )
+        for f in formats:
+            try:
+                f_method = format_dispatcher[f]["method"]
+                f_path_data = format_dispatcher[f]["path"]["data"]  # type: ignore
+                f_path_metadata = format_dispatcher[f]["path"]["metadata"]  # type: ignore
 
-    @property
-    def _path_csv(self) -> Path:
-        return (
+                f_method(dataframe=df, target_path=f_path_data)  # type: ignore
+                self._save_metadata(metadata=metadata, target_path=f_path_metadata)
+            except Exception as e:
+                logger.error(f"can not save format {f}: {e}")
+
+        df = trend_data.dataframe
+
+    def _file_path(self, format: Literal["parquet", "csv"]) -> Dict[str, Path]:
+        """Compute the full path for the target file
+        based on the format
+
+        :param format: the file format to be used
+        """
+        folder = (
             self.target_folder
-            / "format=csv"
+            / f"format={format}"
             / f"snapshot_date={self.snapshot_date.isoformat()}"
-            / "data.csv"
         )
+        folder.mkdir(parents=True, exist_ok=True)
+        return {
+            "data": folder / f"data.{format}",
+            "metadata": folder / "metadata.json",
+        }
 
     def _save_parquet(self, dataframe: pd.DataFrame, target_path: Path):
-        """save a dataframe as parquet"""
+        """save a dataframe as parquet
+
+        :param dataframe: dataframe to be saved as file
+        :param target_path: the target file full path
+        """
         dataframe.to_parquet(target_path)
 
     def _save_csv(self, dataframe: pd.DataFrame, target_path: Path):
-        """save a dataframe as parquet"""
-        dataframe.to_csv(target_path)
+        """save a dataframe as csv
+
+        :param dataframe: dataframe to be saved as file
+        :param target_path: the target file full path
+        """
+        dataframe.to_csv(target_path, index=False)
+
+    def _save_metadata(self, metadata: Dict, target_path: Path):
+        """save metadata as a json file
+
+        :param metadata: metadata in dictionary format
+        :param target_path:
+        """
+
+        with open(target_path, "w") as fp:
+            json.dump(metadata, fp, indent=2)
 
 
 @dataclass
@@ -182,13 +215,3 @@ class TrendReqParams:
 
     tz: int = 120
     hl: str = "en-US"
-
-
-# https://forbrains.co.uk/international_tools/earth_timezones
-pytrends = _TrendReq(hl="en-US", tz=120)
-
-kw_list = ["zalando"]
-pytrends.build_payload(kw_list, cat=0, timeframe="today 5-y", geo="DE")
-
-
-df = pytrends.interest_over_time()
