@@ -1,7 +1,9 @@
 from collections import OrderedDict
 from dataclasses import dataclass
+from typing import Literal
 
 from cloudpathlib import AnyPath
+from pydantic import BaseModel
 from slugify import slugify
 
 # class Config:
@@ -14,15 +16,25 @@ from slugify import slugify
 #     def __call__(self):
 
 
-@dataclass
-class PathParams:
+class PathParams(BaseModel):
+    """parameters to be used to build the folder
+    path of the data files.
+
+    !!! note:
+        We will have to keep the order of the parameters.
+
+        Pydantic already tries to provide ordered schema.
+        In addition, we added a property called `path_schema`.
+    """
+
     keyword: str
-    category: str
+    category: Literal["all"]
     country: str
-    frequency: str
+    frequency: Literal["1W"]
 
     @property
-    def __call__(self) -> OrderedDict:
+    def path_schema(self) -> OrderedDict:
+        """Ordered dictionary for the path schema"""
         return OrderedDict(
             [
                 ("keyword", slugify(self.keyword)),
@@ -32,33 +44,13 @@ class PathParams:
             ]
         )
 
+    def path(self, parent_folder: AnyPath) -> AnyPath:
+        """build the path under the parent folder
 
-class BuildPath:
-    """
-    Build path from a base path
-
-    :param parent_folder: the base folder for the path
-    """
-
-    def __init__(self, parent_folder):
-        self.parent_folder = parent_folder
-
-    def __call__(self, path_params: PathParams) -> AnyPath:
-        """build the path
-
-        ```python
-        path_params = OrderedDict(
-            keyword="phone_case",
-            category="all",
-            country="DE",
-            frequency="1W"
-        )
-        ```
-
-        :path_params: ordered path parameters
+        :parent_folder: base path
         """
-        folder = self.parent_folder
-        for k in path_params.order:
-            folder = folder / f"{k}={path_params['k']}"
+        folder = parent_folder
+        for k in self.path_schema:
+            folder = folder / f"{k}={self.path_schema[k]}"
 
         return folder
