@@ -210,15 +210,3 @@ class StoreDataFrame:
 
         with open(target_path, "w") as fp:
             json.dump(metadata, fp, indent=2)
-
-
-@dataclass
-class TrendReqParams:
-    """
-    Parameters for trend
-
-    1. Get tz info from [here](https://forbrains.co.uk/international_tools/earth_timezones).
-    """
-
-    tz: int = 120
-    hl: str = "en-US"

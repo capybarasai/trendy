@@ -1,0 +1,45 @@
+{
+    "global": {
+        "request": {
+            "tz": 120,
+            "hl": "en-US"
+        },
+        "trend": {
+            "timeframe": "today 5-y",
+            "cat": 0
+        },
+        "path": {
+            "parent_folder": "/tmp/sm-google-trend"
+        }
+    },
+    "keywords": [
+        {
+            "trend": {
+                "timeframe": "today 5-y",
+                "cat": 0,
+                "geo": "DE",
+                "keyword": "phone case"
+            },
+            "path": {
+                "keyword": "phone case",
+                "category": "all",
+                "country": "DE",
+                "frequency": "1W"
+            }
+        },
+        {
+            "trend": {
+                "timeframe": "today 5-y",
+                "cat": 0,
+                "geo": "DE",
+                "keyword": "curtain"
+            },
+            "path": {
+                "keyword": "curtain",
+                "category": "all",
+                "country": "DE",
+                "frequency": "1W"
+            }
+        }
+    ]
+}
