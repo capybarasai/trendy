@@ -5,6 +5,7 @@ import click
 from cloudpathlib import AnyPath
 from loguru import logger
 
+from sm_trendy.config import ConfigBundle
 from sm_trendy.get_trends import SingleTrend, StoreDataFrame, _TrendReq
 
 
@@ -27,18 +28,34 @@ def download(config_file: AnyPath):
     """
     click.echo(click.format_filename(config_file))
 
+    cb = ConfigBundle(file_path=config_file)
+
     today = datetime.date.today()
-    target_folder = "/tmp/downloaded"
-
-    trends_service = _TrendReq(hl="en-US", tz=120)
-
-    keyword = "phone case"
-    st = SingleTrend(
-        trends_service=trends_service,
-        keyword=keyword,
-        geo="DE",
-        timeframe="today 5-year",
-        cat=0,
+    # target_folder = AnyPath("/tmp/downloaded")
+    global_request_params = cb.global_config["request"]
+    target_folder = cb.global_config["path"]["parent_folder"]
+    trends_service = _TrendReq(
+        hl=global_request_params["hl"], tz=global_request_params["tz"]
     )
 
-    sdf = StoreDataFrame(target_folder=target_folder, snapshot_date=today)
+    for c in cb:
+        c_trend_params = c.trend_params
+        c_path_params = c.path_params
+        c_target_folder = c_path_params.path(parent_folder=target_folder)
+        c_sdf = StoreDataFrame(target_folder=c_target_folder, snapshot_date=today)
+
+        logger.info(
+            f"keyword: {c_trend_params.keyword}\n"
+            f"target_path: {c_target_folder}\n"
+            "..."
+        )
+
+        st = SingleTrend(
+            trends_service=trends_service,
+            keyword=c_trend_params.keyword,
+            geo=c_trend_params.geo,
+            timeframe=c_trend_params.timeframe,
+            cat=c_trend_params.cat,
+        )
+
+        c_sdf.save(st, formats=["csv", "parquet"])

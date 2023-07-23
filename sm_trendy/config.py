@@ -140,16 +140,34 @@ class ConfigBundle:
     def __init__(self, file_path: AnyPath):
         self.file_path = file_path
         raw_configs = self._load_json(self.file_path)
-        self.configs = self._combine_configs(raw_configs=raw_configs)
+        self.configs, self.global_config = self._combine_configs(
+            raw_configs=raw_configs
+        )
 
     def _combine_configs(self, raw_configs: Dict) -> List[Config]:
-        global_config = raw_configs["global"]
+        global_config = self._transform_raw_global_config(raw_configs["global"])
+
         combined_configs = [
             self._combine_with_global(global_config=global_config, keyword_config=k)
             for k in raw_configs["keywords"]
         ]
 
-        return combined_configs
+        return combined_configs, global_config
+
+    @staticmethod
+    def _transform_raw_global_config(raw_global_config: Dict) -> Dict:
+        """
+        Convert string to path object if exist
+        """
+        parent_folder = raw_global_config.get("path", {}).get("parent_folder")
+        global_config = copy.deepcopy(raw_global_config)
+
+        if parent_folder is None:
+            return global_config
+        else:
+            parent_folder = AnyPath(parent_folder)
+            global_config["path"]["parent_folder"] = parent_folder
+            return global_config
 
     @staticmethod
     def _combine_with_global(global_config: Dict, keyword_config: Dict) -> Config:
