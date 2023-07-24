@@ -36,6 +36,9 @@ class RequestParams:
 
     tz: int = 120
     hl: str = "en-US"
+    headers: Optional[Dict] = None
+    timeout: Optional[Tuple] = (5, 14)
+    proxies: Optional[Dict] = None
 
 
 @dataclass

@@ -1,5 +1,7 @@
 import datetime
 import os
+import random
+import time
 
 import click
 from cloudpathlib import AnyPath
@@ -7,6 +9,7 @@ from loguru import logger
 
 from sm_trendy.config import ConfigBundle
 from sm_trendy.get_trends import Download, SingleTrend, StoreDataFrame, _TrendReq
+from sm_trendy.request import get_random_user_agent
 
 
 @click.group(invoke_without_command=True)
@@ -34,7 +37,10 @@ def download(config_file: AnyPath):
     global_request_params = cb.global_config["request"]
     parent_folder = cb.global_config["path"]["parent_folder"]
     trends_service = _TrendReq(
-        hl=global_request_params["hl"], tz=global_request_params["tz"]
+        hl=global_request_params["hl"],
+        tz=global_request_params["tz"],
+        timeout=(5, 14),
+        requests_args={"headers": get_random_user_agent()},
     )
 
     dl = Download(
@@ -43,5 +49,10 @@ def download(config_file: AnyPath):
         trends_service=trends_service,
     )
 
+    wait_seconds_min_max = (30, 120)
+
     for c in cb:
         dl(c)
+        wait_seconds = random.randint(*wait_seconds_min_max)
+        logger.info(f"Waiting for {wait_seconds} seconds ...")
+        time.sleep(wait_seconds)
