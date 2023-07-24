@@ -4,11 +4,26 @@ import copy
 import json
 from collections import OrderedDict
 from dataclasses import dataclass
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional, Tuple
 
 from cloudpathlib import AnyPath
 from pydantic import BaseModel
 from slugify import slugify
+
+
+def convert_path(raw_config: Dict) -> Dict:
+    """Convert str representation of path to Path
+
+    :param raw_config: raw config
+    """
+    keys = ["parent_folder"]
+    config = copy.deepcopy(raw_config)
+
+    for k in keys:
+        if (not isinstance(config.get(k), AnyPath)) and (config.get(k) is not None):
+            config[k] = config[k]
+
+    return config
 
 
 @dataclass
@@ -67,6 +82,8 @@ class PathParams(BaseModel):
 
         :parent_folder: base path
         """
+        if not isinstance(parent_folder, AnyPath):
+            parent_folder = AnyPath(parent_folder)
         folder = parent_folder
         for k in self.path_schema:
             folder = folder / f"{k}={self.path_schema[k]}"
@@ -125,7 +142,8 @@ class Config:
 
         request_params = RequestParams(**config["request"])
         trend_params = TrendParams(**config["trend"])
-        path_params = PathParams(**config["path"])
+        path_config = convert_path(config["path"])
+        path_params = PathParams(**path_config)
 
         return Config(
             request_params=request_params,
@@ -144,7 +162,7 @@ class ConfigBundle:
             raw_configs=raw_configs
         )
 
-    def _combine_configs(self, raw_configs: Dict) -> List[Config]:
+    def _combine_configs(self, raw_configs: Dict) -> Tuple[List[Config], Dict]:
         global_config = self._transform_raw_global_config(raw_configs["global"])
 
         combined_configs = [
@@ -159,15 +177,12 @@ class ConfigBundle:
         """
         Convert string to path object if exist
         """
-        parent_folder = raw_global_config.get("path", {}).get("parent_folder")
         global_config = copy.deepcopy(raw_global_config)
 
-        if parent_folder is None:
-            return global_config
-        else:
-            parent_folder = AnyPath(parent_folder)
-            global_config["path"]["parent_folder"] = parent_folder
-            return global_config
+        if "path" in global_config:
+            global_config["path"] = convert_path(global_config["path"])
+
+        return global_config
 
     @staticmethod
     def _combine_with_global(global_config: Dict, keyword_config: Dict) -> Config:

@@ -80,4 +80,4 @@ def test_config_bundle(data_directory):
     config_path = data_directory / "test_config.json"
     cb = ConfigBundle(file_path=config_path)
 
-    cb
+    assert len(cb) == 2
