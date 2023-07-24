@@ -3,11 +3,11 @@ from __future__ import annotations
 import copy
 import json
 from collections import OrderedDict
-from dataclasses import dataclass
 from typing import Any, Dict, List, Literal, Optional, Tuple
 
 from cloudpathlib import AnyPath
 from pydantic import BaseModel
+from pydantic.dataclasses import dataclass
 from slugify import slugify
 
 
@@ -40,10 +40,10 @@ class RequestParams:
 
 @dataclass
 class TrendParams:
-    keyword: str
-    geo: str
-    timeframe: str
-    cat: int
+    keyword: Optional[str] = None
+    geo: Optional[str] = None
+    timeframe: Optional[str] = None
+    cat: Optional[int] = None
 
 
 class PathParams(BaseModel):
@@ -151,9 +151,17 @@ class Config:
             path_params=path_params,
         )
 
+    def _validate(self):
+        assert (
+            self.trend_params.keyword == self.path_params.keyword
+        ), "trend keyword and path keyword should match"
+
 
 class ConfigBundle:
-    """Build a list of configs from"""
+    """Build a list of configs from file
+
+    :param file_path: path to the file
+    """
 
     def __init__(self, file_path: AnyPath):
         self.file_path = file_path

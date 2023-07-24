@@ -4,13 +4,15 @@ import json
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional, Union
 
 import pandas as pd
 import requests
 from cloudpathlib import AnyPath
 from loguru import logger
 from pytrends.request import TrendReq
+
+from sm_trendy.config import Config
 
 
 @contextlib.contextmanager
@@ -77,10 +79,12 @@ class SingleTrend:
         if not isinstance(self.keyword, str):
             raise Exception(f"Requires str as keyword input, got {type(self.keyword)}")
 
+        logger.debug(f"building payload for {self.keyword} ...")
         self.trends_service.build_payload(
             [self.keyword], cat=self.cat, timeframe=self.timeframe, geo=self.geo
         )
 
+        logger.debug(f"Downloading trend for {self.keyword} ...")
         df = self.trends_service.interest_over_time()
 
         return df
@@ -210,3 +214,49 @@ class StoreDataFrame:
 
         with open(target_path, "w") as fp:
             json.dump(metadata, fp, indent=2)
+
+
+class Download:
+    """Download trend using config
+
+    :params parent_folder: parent folder for the data
+    :param snapshot_date: snapshot date for the path
+    :param trends_service: trend service
+    """
+
+    def __init__(
+        self,
+        parent_folder: AnyPath,
+        snapshot_date: datetime.date,
+        trends_service: _TrendReq,
+    ):
+        self.parent_folder = parent_folder
+        self.snapshot_date = snapshot_date
+        self.trends_service = trends_service
+
+    def __call__(self, config: Config):
+        """
+        :param config: config for the keyword
+        """
+
+        trend_params = config.trend_params
+        path_params = config.path_params
+        target_folder = path_params.path(parent_folder=self.parent_folder)
+        sdf = StoreDataFrame(
+            target_folder=target_folder, snapshot_date=self.snapshot_date
+        )
+
+        logger.info(
+            f"keyword: {trend_params.keyword}\n" f"target_path: {target_folder}\n" "..."
+        )
+
+        st = SingleTrend(
+            trends_service=self.trends_service,
+            keyword=trend_params.keyword,
+            geo=trend_params.geo,
+            timeframe=trend_params.timeframe,
+            cat=trend_params.cat,
+        )
+
+        sdf.save(st, formats=["csv", "parquet"])
+        logger.info(f"Saved to {target_folder}")
