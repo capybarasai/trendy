@@ -39,8 +39,9 @@ def download(config_file: AnyPath):
     trends_service = _TrendReq(
         hl=global_request_params["hl"],
         tz=global_request_params["tz"],
-        timeout=(5, 14),
+        timeout=(10, 14),
         requests_args={"headers": get_random_user_agent()},
+        proxies=["https://157.245.27.9:3128"],
     )
 
     dl = Download(
