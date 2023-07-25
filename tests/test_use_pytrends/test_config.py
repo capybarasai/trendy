@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from sm_trendy.config import (
+from sm_trendy.use_pytrends.config import (
     Config,
     ConfigBundle,
     PathParams,

@@ -9,7 +9,7 @@ from loguru import logger
 
 from sm_trendy.config import ConfigBundle
 from sm_trendy.get_trends import Download, SingleTrend, StoreDataFrame, _TrendReq
-from sm_trendy.request import get_random_user_agent
+from sm_trendy.utilities.request import get_random_user_agent
 
 
 @click.group(invoke_without_command=True)

@@ -12,7 +12,7 @@ from cloudpathlib import AnyPath
 from loguru import logger
 from pytrends.request import TrendReq
 
-from sm_trendy.config import Config
+from sm_trendy.use_pytrends.config import Config
 
 
 @contextlib.contextmanager
