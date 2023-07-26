@@ -1,9 +1,10 @@
 import datetime
 import json
+from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional
 
 import pandas as pd
-from cloudpathlib import AnyPath
+from cloudpathlib import AnyPath, CloudPath, S3Path
 from loguru import logger
 
 
@@ -90,7 +91,8 @@ class StoreDataFrame:
             / f"format={format}"
             / f"snapshot_date={self.snapshot_date.isoformat()}"
         )
-        folder.mkdir(parents=True, exist_ok=True)
+        if isinstance(folder, Path):
+            folder.mkdir(parents=True, exist_ok=True)
         return {
             "data": folder / f"data.{format}",
             "metadata": folder / "metadata.json",
@@ -102,6 +104,13 @@ class StoreDataFrame:
         :param dataframe: dataframe to be saved as file
         :param target_path: the target file full path
         """
+        if isinstance(target_path, S3Path):
+            target_path = str(target_path)
+            logger.debug(
+                "Converting S3Path to string for pandas compatability\n"
+                f"{type(target_path)}: {target_path}"
+            )
+        logger.debug(f"Saving parquet format to {target_path} ...")
         dataframe.to_parquet(target_path)
 
     def _save_csv(self, dataframe: pd.DataFrame, target_path: AnyPath):
@@ -110,6 +119,13 @@ class StoreDataFrame:
         :param dataframe: dataframe to be saved as file
         :param target_path: the target file full path
         """
+        if isinstance(target_path, S3Path):
+            target_path = str(target_path)
+            logger.debug(
+                "Converting S3Path to string for pandas compatability\n"
+                f"{type(target_path)}: {target_path}"
+            )
+        logger.debug(f"Saving csv format to {target_path} ...")
         dataframe.to_csv(target_path, index=False)
 
     def _save_metadata(self, metadata: Dict, target_path: AnyPath):
@@ -118,6 +134,6 @@ class StoreDataFrame:
         :param metadata: metadata in dictionary format
         :param target_path:
         """
-
-        with open(target_path, "w") as fp:
+        logger.debug(f"Saving metadata to {target_path} ...")
+        with target_path.open("w+") as fp:
             json.dump(metadata, fp, indent=2)

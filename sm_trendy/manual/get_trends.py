@@ -93,5 +93,5 @@ class ManualDownload:
             "..."
         )
 
+        logger.info(f"Saving to {target_folder} ...")
         sdf.save(sst, formats=["csv", "parquet"])
-        logger.info(f"Saved to {target_folder}")

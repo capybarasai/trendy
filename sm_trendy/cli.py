@@ -100,8 +100,8 @@ def download_serpapi(config_file: AnyPath):
 
 
 @trendy.command()
-@click.argument("config-file", type=click.Path(exists=True))
-@click.argument("manual-folder", type=click.Path(exists=False))
+@click.argument("config-file", type=AnyPath)
+@click.argument("manual-folder", type=AnyPath)
 def create_manual_folders(config_file: AnyPath, manual_folder: AnyPath):
     """Create folders based on the serpapi config
 
@@ -119,8 +119,8 @@ def create_manual_folders(config_file: AnyPath, manual_folder: AnyPath):
 
 
 @trendy.command()
-@click.argument("config-file", type=click.Path(exists=True))
-@click.argument("manual-folder", type=click.Path(exists=False))
+@click.argument("config-file", type=AnyPath)
+@click.argument("manual-folder", type=AnyPath)
 def upload_manual(config_file: AnyPath, manual_folder: AnyPath):
     """Download trends based on the config file
 
