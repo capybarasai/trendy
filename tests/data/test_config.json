@@ -22,9 +22,9 @@
             },
             "path": {
                 "keyword": "phone case",
-                "category": "all",
-                "country": "DE",
-                "frequency": "1W"
+                "cat": "0",
+                "geo": "DE",
+                "timeframe": "today 5-y"
             }
         },
         {
@@ -36,9 +36,9 @@
             },
             "path": {
                 "keyword": "curtain",
-                "category": "all",
-                "country": "DE",
-                "frequency": "1W"
+                "cat": "0",
+                "geo": "DE",
+                "timeframe": "today 5-y"
             }
         }
     ]

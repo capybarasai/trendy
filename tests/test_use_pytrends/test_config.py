@@ -14,20 +14,18 @@ from sm_trendy.use_pytrends.config import (
 
 @pytest.fixture
 def path_params():
-    return PathParams(
-        keyword="phone case", category="all", country="DE", frequency="1W"
-    )
+    return PathParams(keyword="phone case", cat="0", geo="DE", timeframe="today 5-y")
 
 
 def test_path_params_order():
     pp = PathParams(
         keyword="phone case",
-        country="DE",
-        frequency="1W",
-        category="all",
+        geo="DE",
+        timeframe="1W",
+        cat="all",
     )
 
-    orders = ["keyword", "category", "country", "frequency"]
+    orders = ["keyword", "cat", "geo", "timeframe"]
     for i, j in zip(pp.model_fields.keys(), orders):
         assert i == j
 
@@ -37,14 +35,14 @@ def test_path_params_path(path_params):
     assert path_params.path_schema == OrderedDict(
         [
             ("keyword", "phone-case"),
-            ("category", "all"),
-            ("country", "DE"),
-            ("frequency", "1W"),
+            ("category", "0"),
+            ("geo", "de"),
+            ("timeframe", "today-5-y"),
         ]
     )
 
     assert path_params.path(Path("/tmp")) == Path(
-        "/tmp/keyword=phone-case/category=all/country=DE/frequency=1W"
+        "/tmp/keyword=phone-case/cat=0/geo=de/timeframe=today-5-y"
     )
 
 
@@ -60,9 +58,9 @@ def config_dict():
         },
         "path": {
             "keyword": "phone case",
-            "category": "all",
-            "country": "DE",
-            "frequency": "1W",
+            "category": "0",
+            "geo": "DE",
+            "timeframe": "today 5-y",
         },
     }
 

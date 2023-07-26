@@ -114,8 +114,8 @@ class StoreDataFrame:
 
     ```
     target_folder = some_folder / "google_trend"
-    / "keyword=phone_case" / "category=all"
-    / "country=DE" / "frequency=1W"
+    / "keyword=phone_case" / "cat=0"
+    / "geo=de" / "timeframe=today-5-y"
     ```
 
     :param target_folder: parent folder for the data.

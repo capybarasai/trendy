@@ -7,22 +7,7 @@ from typing import Any, Dict, List, Literal, Optional, Tuple
 from cloudpathlib import AnyPath
 from pydantic.dataclasses import dataclass
 
-from sm_trendy.utilities.config import PathParams, TrendParams
-
-
-def convert_path(raw_config: Dict) -> Dict:
-    """Convert str representation of path to Path
-
-    :param raw_config: raw config
-    """
-    keys = ["parent_folder"]
-    config = copy.deepcopy(raw_config)
-
-    for k in keys:
-        if (not isinstance(config.get(k), AnyPath)) and (config.get(k) is not None):
-            config[k] = config[k]
-
-    return config
+from sm_trendy.utilities.config import PathParams, TrendParams, convert_path
 
 
 @dataclass
@@ -78,7 +63,7 @@ class Config:
             },
             "path": {
                 "keyword": "phone case",
-                "category": "all",
+                "cat": "all",
                 "country": "DE",
                 "frequency": "1W"
             }

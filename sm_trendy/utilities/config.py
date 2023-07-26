@@ -1,10 +1,26 @@
+import copy
 from collections import OrderedDict
-from typing import Literal, Optional
+from typing import Dict, Literal, Optional
 
 from cloudpathlib import AnyPath
 from pydantic import BaseModel
 from pydantic.dataclasses import dataclass
 from slugify import slugify
+
+
+def convert_path(raw_config: Dict) -> Dict:
+    """Convert str representation of path to Path
+
+    :param raw_config: raw config
+    """
+    keys = ["parent_folder"]
+    config = copy.deepcopy(raw_config)
+
+    for k in keys:
+        if (not isinstance(config.get(k), AnyPath)) and (config.get(k) is not None):
+            config[k] = config[k]
+
+    return config
 
 
 @dataclass
@@ -27,9 +43,9 @@ class PathParams(BaseModel):
     """
 
     keyword: str
-    category: Literal["all"]
-    country: str
-    frequency: Literal["1W"]
+    cat: str
+    geo: str
+    timeframe: str
 
     @property
     def path_schema(self) -> OrderedDict:
@@ -40,9 +56,9 @@ class PathParams(BaseModel):
         return OrderedDict(
             [
                 ("keyword", slugify(self.keyword)),
-                ("category", slugify(self.category)),
-                ("country", self.country),
-                ("frequency", self.frequency),
+                ("cat", slugify(self.cat)),
+                ("geo", slugify(self.geo)),
+                ("timeframe", slugify(self.timeframe)),
             ]
         )
 

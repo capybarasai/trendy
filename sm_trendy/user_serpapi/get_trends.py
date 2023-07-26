@@ -4,7 +4,7 @@ from cloudpathlib import AnyPath
 from loguru import logger
 from serpapi import GoogleSearch
 
-from sm_trendy.user_serpapi.config import SerpAPIConfig
+from sm_trendy.user_serpapi.config import SerpAPIParams
 
 params = {
     "api_key": "b6eec35caefee2b187dbb303b4ab1092e513d7e8a8ded4359cc22d03b9bdeba2",
@@ -39,7 +39,7 @@ class Download:
         self.snapshot_date = snapshot_date
         self.trends_service = trends_service
 
-    def __call__(self, config: SerpAPIConfig):
+    def __call__(self, config: SerpAPIParams):
         """
         :param config: config for the keyword
         """
