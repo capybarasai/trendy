@@ -35,7 +35,7 @@ def test_path_params_path(path_params):
     assert path_params.path_schema == OrderedDict(
         [
             ("keyword", "phone-case"),
-            ("category", "0"),
+            ("cat", "0"),
             ("geo", "de"),
             ("timeframe", "today-5-y"),
         ]
@@ -58,7 +58,7 @@ def config_dict():
         },
         "path": {
             "keyword": "phone case",
-            "category": "0",
+            "cat": "0",
             "geo": "DE",
             "timeframe": "today 5-y",
         },

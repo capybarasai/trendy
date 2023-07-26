@@ -73,6 +73,25 @@ def download_serpapi(config_file: AnyPath):
     """
     click.echo(click.format_filename(config_file))
 
-    api_key = os.environ.get("SERPAPI_KEY")
+    today = datetime.date.today()
 
-    user_serpapi.config.Config()
+    api_key = os.environ.get("SERPAPI_KEY")
+    if api_key is None:
+        logger.error("api_key is empty, please set the env var: " "SERPAPI_KEY")
+
+    scb = user_serpapi.config.SerpAPIConfigBundle(
+        file_path=config_file, serpapi_key=api_key
+    )
+
+    parent_folder = scb.global_config["path"]["parent_folder"]
+    sdl = user_serpapi.get_trends.SerpAPIDownload(
+        parent_folder=parent_folder, snapshot_date=today
+    )
+
+    wait_seconds_min_max = (0, 1)
+
+    for c in scb:
+        sdl(c)
+        wait_seconds = random.randint(*wait_seconds_min_max)
+        logger.info(f"Waiting for {wait_seconds} seconds ...")
+        time.sleep(wait_seconds)

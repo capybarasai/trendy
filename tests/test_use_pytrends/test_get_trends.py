@@ -3,7 +3,8 @@ import datetime
 import pandas as pd
 import pytest
 
-from sm_trendy.use_pytrends.get_trends import SingleTrend, StoreDataFrame, _TrendReq
+from sm_trendy.use_pytrends.get_trends import SingleTrend, _TrendReq
+from sm_trendy.utilities.storage import StoreDataFrame
 
 
 @pytest.fixture

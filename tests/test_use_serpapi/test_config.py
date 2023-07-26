@@ -35,7 +35,7 @@ def test_serpapi_params():
         }
     )
 
-    assert sp.dict(exclude_none=True) == {
+    assert sp.model_dump(exclude_none=True) == {
         "api_key": "",
         "engine": "google_trends",
         "q": "Coffee",
@@ -45,7 +45,7 @@ def test_serpapi_params():
         "date": "today 5-y",
     }
 
-    assert sp_no_geo.dict(exclude_none=True) == {
+    assert sp_no_geo.model_dump(exclude_none=True) == {
         "api_key": "",
         "engine": "google_trends",
         "q": "Coffee",
@@ -54,7 +54,7 @@ def test_serpapi_params():
         "date": "today 5-y",
     }
 
-    assert sp_set_none.dict(exclude_none=True) == {
+    assert sp_set_none.model_dump(exclude_none=True) == {
         "api_key": "",
         "engine": "google_trends",
         "q": "Coffee",

@@ -13,6 +13,9 @@ from sm_trendy.utilities.config import PathParams, convert_path
 class SerpAPIParams(BaseModel):
     """
 
+    SerpAPI docs:
+    https://serpapi.com/google-trends-api
+
     ```python
     sc = SerpAPIParams(
         **{
