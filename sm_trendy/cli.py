@@ -67,7 +67,7 @@ def download_pytrends(config_file: AnyPath):
 
 
 @trendy.command()
-@click.argument("config-file", type=click.Path(exists=True))
+@click.argument("config-file", type=AnyPath)
 def download_serpapi(config_file: AnyPath):
     """Download trends based on the config file
 
