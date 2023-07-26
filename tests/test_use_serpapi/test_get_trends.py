@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from sm_trendy.user_serpapi.get_trends import SerpAPISingleTrend
+from sm_trendy.use_serpapi.get_trends import SerpAPISingleTrend
 
 
 @pytest.fixture

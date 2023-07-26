@@ -1,4 +1,4 @@
-from sm_trendy.user_serpapi.config import (
+from sm_trendy.use_serpapi.config import (
     SerpAPIConfig,
     SerpAPIConfigBundle,
     SerpAPIParams,

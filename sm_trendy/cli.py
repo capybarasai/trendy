@@ -10,7 +10,8 @@ from loguru import logger
 
 import sm_trendy.use_pytrends.config as ptc
 import sm_trendy.use_pytrends.get_trends as ptg
-from sm_trendy import user_serpapi
+from sm_trendy.use_serpapi.config import SerpAPIConfigBundle
+from sm_trendy.use_serpapi.get_trends import SerpAPIDownload
 from sm_trendy.utilities.request import get_random_user_agent
 
 load_dotenv()
@@ -79,19 +80,18 @@ def download_serpapi(config_file: AnyPath):
     if api_key is None:
         logger.error("api_key is empty, please set the env var: " "SERPAPI_KEY")
 
-    scb = user_serpapi.config.SerpAPIConfigBundle(
-        file_path=config_file, serpapi_key=api_key
-    )
+    scb = SerpAPIConfigBundle(file_path=config_file, serpapi_key=api_key)
 
     parent_folder = scb.global_config["path"]["parent_folder"]
-    sdl = user_serpapi.get_trends.SerpAPIDownload(
-        parent_folder=parent_folder, snapshot_date=today
-    )
+    sdl = SerpAPIDownload(parent_folder=parent_folder, snapshot_date=today)
 
     wait_seconds_min_max = (0, 1)
 
     for c in scb:
-        sdl(c)
-        wait_seconds = random.randint(*wait_seconds_min_max)
-        logger.info(f"Waiting for {wait_seconds} seconds ...")
-        time.sleep(wait_seconds)
+        try:
+            sdl(c)
+            wait_seconds = random.randint(*wait_seconds_min_max)
+            logger.info(f"Waiting for {wait_seconds} seconds ...")
+            time.sleep(wait_seconds)
+        except Exception as e:
+            logger.error("Can not download: \n" f"config: {c}\n" f" error: {e}")
