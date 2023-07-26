@@ -5,11 +5,15 @@ import time
 
 import click
 from cloudpathlib import AnyPath
+from dotenv import load_dotenv
 from loguru import logger
 
-from sm_trendy.config import ConfigBundle
-from sm_trendy.get_trends import Download, SingleTrend, StoreDataFrame, _TrendReq
+import sm_trendy.use_pytrends.config as ptc
+import sm_trendy.use_pytrends.get_trends as ptg
+from sm_trendy import user_serpapi
 from sm_trendy.utilities.request import get_random_user_agent
+
+load_dotenv()
 
 
 @click.group(invoke_without_command=True)
@@ -23,7 +27,7 @@ def trendy(ctx):
 
 @trendy.command()
 @click.argument("config-file", type=click.Path(exists=True))
-def download(config_file: AnyPath):
+def download_pytrends(config_file: AnyPath):
     """Download trends based on the config file
 
     :param config_file: location of a config file that contains
@@ -31,12 +35,12 @@ def download(config_file: AnyPath):
     """
     click.echo(click.format_filename(config_file))
 
-    cb = ConfigBundle(file_path=config_file)
+    cb = ptc.ConfigBundle(file_path=config_file)
 
     today = datetime.date.today()
     global_request_params = cb.global_config["request"]
     parent_folder = cb.global_config["path"]["parent_folder"]
-    trends_service = _TrendReq(
+    trends_service = ptg._TrendReq(
         hl=global_request_params["hl"],
         tz=global_request_params["tz"],
         timeout=(10, 14),
@@ -44,7 +48,7 @@ def download(config_file: AnyPath):
         proxies=["https://157.245.27.9:3128"],
     )
 
-    dl = Download(
+    dl = ptg.Download(
         parent_folder=parent_folder,
         snapshot_date=today,
         trends_service=trends_service,
@@ -57,3 +61,18 @@ def download(config_file: AnyPath):
         wait_seconds = random.randint(*wait_seconds_min_max)
         logger.info(f"Waiting for {wait_seconds} seconds ...")
         time.sleep(wait_seconds)
+
+
+@trendy.command()
+@click.argument("config-file", type=click.Path(exists=True))
+def download_serpapi(config_file: AnyPath):
+    """Download trends based on the config file
+
+    :param config_file: location of a config file that contains
+        the configurations and the keywords
+    """
+    click.echo(click.format_filename(config_file))
+
+    api_key = os.environ.get("SERPAPI_KEY")
+
+    user_serpapi.config.Config()

@@ -18,6 +18,7 @@ click = "^8.1.6"
 python-slugify = "^8.0.1"
 pydantic = "^2.0.3"
 google-search-results = "^2.4.2"
+python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
