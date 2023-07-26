@@ -1,0 +1,30 @@
+{
+    "global": {
+        "serpapi": {
+            "date": "today 5-y",
+            "cat": "0",
+            "tz": "120"
+        },
+        "path": {
+            "parent_folder": "/tmp/sm-google-trend"
+        }
+    },
+    "keywords": [
+        {
+            "serpapi": {
+                "timeframe": "today 5-y",
+                "cat": "0",
+                "geo": "DE",
+                "q": "phone case"
+            }
+        },
+        {
+            "serpapi": {
+                "timeframe": "today 5-y",
+                "cat": "0",
+                "geo": "DE",
+                "q": "curtain"
+            }
+        }
+    ]
+}

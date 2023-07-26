@@ -12,7 +12,8 @@ from cloudpathlib import AnyPath
 from loguru import logger
 from pytrends.request import TrendReq
 
-from sm_trendy.config import Config
+from sm_trendy.use_pytrends.config import Config
+from sm_trendy.utilities.storage import StoreDataFrame
 
 
 @contextlib.contextmanager
@@ -100,124 +101,38 @@ class SingleTrend:
         }
 
 
-class StoreDataFrame:
-    """Save dataframe
-
-    We follow the schema
-
-    ```python
-    target_folder / "format=parquet" / "snapshot_date="
-    ```
-
-    `target_folder` should reflect what data is inside.
-    For example, we may use
-
-    ```
-    target_folder = some_folder / "google_trend"
-    / "keyword=phone_case" / "category=all"
-    / "country=DE" / "frequency=1W"
-    ```
-
-    :param target_folder: parent folder for the data.
-        Note that subfolders will be created inside it.
-    :param snapshot_date: the date when the data was produced.
-        Please stick to UTC date.
-    """
-
-    def __init__(self, target_folder: AnyPath, snapshot_date: datetime.date):
-        self.target_folder = target_folder
-
-        if not isinstance(snapshot_date, datetime.date):
-            raise TypeError(
-                f"snapshot_date provided is not date time: {type(snapshot_date)}"
-            )
-        else:
-            self.snapshot_date = snapshot_date
-
-    def save(
-        self,
-        trend_data: SingleTrend,
-        formats: Optional[List[Literal["parquet", "csv"]]],
-    ):
-        """
-        Save the trend results
-
-        :param trend_data: the object containing the dataframe and metadata
-        :param formats: which formats to save as
-        """
-        df = trend_data.dataframe
-        metadata = trend_data.metadata
-
-        format_dispatcher = {
-            "parquet": {
-                "method": self._save_parquet,
-                "path": self._file_path(format="parquet"),
-            },
-            "csv": {
-                "method": self._save_csv,
-                "path": self._file_path(format="csv"),
-            },
-        }
-
-        for f in formats:
-            try:
-                f_method = format_dispatcher[f]["method"]
-                f_path_data = format_dispatcher[f]["path"]["data"]  # type: ignore
-                f_path_metadata = format_dispatcher[f]["path"]["metadata"]  # type: ignore
-
-                f_method(dataframe=df, target_path=f_path_data)  # type: ignore
-                self._save_metadata(metadata=metadata, target_path=f_path_metadata)
-            except Exception as e:
-                logger.error(f"can not save format {f}: {e}")
-
-        df = trend_data.dataframe
-
-    def _file_path(self, format: Literal["parquet", "csv"]) -> Dict[str, AnyPath]:
-        """Compute the full path for the target file
-        based on the format
-
-        :param format: the file format to be used
-        """
-        folder = (
-            self.target_folder
-            / f"format={format}"
-            / f"snapshot_date={self.snapshot_date.isoformat()}"
-        )
-        folder.mkdir(parents=True, exist_ok=True)
-        return {
-            "data": folder / f"data.{format}",
-            "metadata": folder / "metadata.json",
-        }
-
-    def _save_parquet(self, dataframe: pd.DataFrame, target_path: AnyPath):
-        """save a dataframe as parquet
-
-        :param dataframe: dataframe to be saved as file
-        :param target_path: the target file full path
-        """
-        dataframe.to_parquet(target_path)
-
-    def _save_csv(self, dataframe: pd.DataFrame, target_path: AnyPath):
-        """save a dataframe as csv
-
-        :param dataframe: dataframe to be saved as file
-        :param target_path: the target file full path
-        """
-        dataframe.to_csv(target_path, index=False)
-
-    def _save_metadata(self, metadata: Dict, target_path: AnyPath):
-        """save metadata as a json file
-
-        :param metadata: metadata in dictionary format
-        :param target_path:
-        """
-
-        with open(target_path, "w") as fp:
-            json.dump(metadata, fp, indent=2)
-
-
 class Download:
     """Download trend using config
+
+    ```python
+    config_file = ...
+    cb = ConfigBundle(file_path=config_file)
+
+    today = datetime.date.today()
+    global_request_params = cb.global_config["request"]
+    parent_folder = cb.global_config["path"]["parent_folder"]
+    trends_service = _TrendReq(
+        hl=global_request_params["hl"],
+        tz=global_request_params["tz"],
+        timeout=(10, 14),
+        requests_args={"headers": get_random_user_agent()},
+        proxies=["https://157.245.27.9:3128"],
+    )
+
+    dl = Download(
+        parent_folder=parent_folder,
+        snapshot_date=today,
+        trends_service=trends_service,
+    )
+
+    wait_seconds_min_max = (30, 120)
+
+    for c in cb:
+        dl(c)
+        wait_seconds = random.randint(*wait_seconds_min_max)
+        logger.info(f"Waiting for {wait_seconds} seconds ...")
+        time.sleep(wait_seconds)
+    ```
 
     :params parent_folder: parent folder for the data
     :param snapshot_date: snapshot date for the path
