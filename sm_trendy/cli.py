@@ -111,6 +111,8 @@ def create_manual_folders(config_file: AnyPath, manual_folder: AnyPath):
     click.echo(click.format_filename(config_file))
 
     scb = SerpAPIConfigBundle(file_path=config_file, serpapi_key="")
+    if not isinstance(manual_folder, AnyPath):
+        manual_folder = AnyPath(manual_folder)
     s2m = SerpAPI2Manual(manual_folder=manual_folder)
     logger.info(f"Create intermediate folders in {manual_folder} ...")
     s2m(config_bundle=scb)
@@ -132,7 +134,9 @@ def upload_manual(config_file: AnyPath, manual_folder: AnyPath):
     scb = SerpAPIConfigBundle(file_path=config_file, serpapi_key="")
 
     parent_folder = scb.global_config["path"]["parent_folder"]
-    mdl = ManualDownload(parent_folder=parent_folder, snapshot_date=today)
+    mdl = ManualDownload(
+        parent_folder=parent_folder, snapshot_date=today, manual_folder=manual_folder
+    )
 
     for c in scb:
         try:
