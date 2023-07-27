@@ -5,6 +5,8 @@ from typing import Dict, Literal, Optional
 from cloudpathlib import AnyPath
 from pydantic import BaseModel
 from pydantic.dataclasses import dataclass
+from rich.panel import Panel
+from rich.table import Table
 from slugify import slugify
 
 
@@ -74,3 +76,36 @@ class PathParams(BaseModel):
             folder = folder / f"{k}={self.path_schema[k]}"
 
         return folder
+
+
+class ConfigTable:
+    """
+    ConfigBundle to table
+
+    :config_bundle: serpapi config bundle
+    """
+
+    def __init__(self, config_bundle):
+        self.config_bundle = config_bundle
+
+    @property
+    def table(self):
+        parent_folder = self.config_bundle.global_config.get("path", {}).get(
+            "parent_folder"
+        )
+        table = Table(title=f"Config Bundle: {parent_folder}", show_lines=True)
+
+        table.add_column("q", justify="right", style="cyan", no_wrap=False)
+        table.add_column("cat", style="magenta", no_wrap=False)
+        table.add_column("geo", style="magenta", no_wrap=False)
+        table.add_column("timeframe", style="magenta", no_wrap=False)
+
+        for c in self.config_bundle:
+            table.add_row(
+                c.serpapi_params.q,
+                c.serpapi_params.cat,
+                c.serpapi_params.geo,
+                c.serpapi_params.date,
+            )
+
+        return table

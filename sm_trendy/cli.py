@@ -7,6 +7,7 @@ import click
 from cloudpathlib import AnyPath
 from dotenv import load_dotenv
 from loguru import logger
+from rich.console import Console
 
 import sm_trendy.use_pytrends.config as ptc
 import sm_trendy.use_pytrends.get_trends as ptg
@@ -14,6 +15,7 @@ from sm_trendy.manual.config import SerpAPI2Manual
 from sm_trendy.manual.get_trends import ManualDownload
 from sm_trendy.use_serpapi.config import SerpAPIConfigBundle
 from sm_trendy.use_serpapi.get_trends import SerpAPIDownload
+from sm_trendy.utilities.config import ConfigTable
 from sm_trendy.utilities.request import get_random_user_agent
 
 load_dotenv()
@@ -143,3 +145,20 @@ def upload_manual(config_file: AnyPath, manual_folder: AnyPath):
             mdl(c)
         except Exception as e:
             logger.error("Can not download: \n" f"config: {c}\n" f" error: {e}")
+
+
+@trendy.command()
+@click.argument("config-file", type=AnyPath)
+def validate_config(config_file: AnyPath):
+    """Validate config file
+
+    :param config_file: location of a config file that contains
+        the configurations and the keywords
+    """
+    click.echo(f"Validating {click.format_filename(config_file)} ...")
+
+    scb = SerpAPIConfigBundle(file_path=config_file, serpapi_key="")
+
+    ct = ConfigTable(scb)
+    console = Console()
+    console.print(ct.table)
