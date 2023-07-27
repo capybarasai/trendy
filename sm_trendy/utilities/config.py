@@ -88,24 +88,32 @@ class ConfigTable:
     def __init__(self, config_bundle):
         self.config_bundle = config_bundle
 
-    @property
-    def table(self):
+    def table(self, top_n: int = 10):
+        """
+        :param top_n: only display the top_n configs
+        """
         parent_folder = self.config_bundle.global_config.get("path", {}).get(
             "parent_folder"
         )
-        table = Table(title=f"Config Bundle: {parent_folder}", show_lines=True)
+        n_configs = len(self.config_bundle)
+        table = Table(
+            title=f"Configs: {n_configs}; Path: {str(parent_folder)}", show_lines=True
+        )
 
         table.add_column("q", justify="right", style="cyan", no_wrap=False)
         table.add_column("cat", style="magenta", no_wrap=False)
         table.add_column("geo", style="magenta", no_wrap=False)
         table.add_column("timeframe", style="magenta", no_wrap=False)
 
-        for c in self.config_bundle:
-            table.add_row(
-                c.serpapi_params.q,
-                c.serpapi_params.cat,
-                c.serpapi_params.geo,
-                c.serpapi_params.date,
-            )
+        for idx, c in enumerate(self.config_bundle):
+            if idx > top_n:
+                break
+            else:
+                table.add_row(
+                    c.serpapi_params.q,
+                    c.serpapi_params.cat,
+                    c.serpapi_params.geo,
+                    c.serpapi_params.date,
+                )
 
         return table

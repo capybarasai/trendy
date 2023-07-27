@@ -149,16 +149,21 @@ def upload_manual(config_file: AnyPath, manual_folder: AnyPath):
 
 @trendy.command()
 @click.argument("config-file", type=AnyPath)
-def validate_config(config_file: AnyPath):
+@click.argument("top-n", type=int, default=10)
+def validate_config(config_file: AnyPath, top_n: int):
     """Validate config file
 
     :param config_file: location of a config file that contains
         the configurations and the keywords
+    :param top_n: top n to be displayed
     """
-    click.echo(f"Validating {click.format_filename(config_file)} ...")
+    click.echo(f"Validating {click.format_filename(str(config_file))} ...")
 
     scb = SerpAPIConfigBundle(file_path=config_file, serpapi_key="")
 
     ct = ConfigTable(scb)
     console = Console()
-    console.print(ct.table)
+    console.print(ct.table(top_n=top_n))
+
+    api_key = os.environ.get("SERPAPI_KEY")
+    console.print(f"SERPAPI_KEY Exists: {api_key is not None}")
