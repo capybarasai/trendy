@@ -5,6 +5,7 @@ import json
 from typing import Dict, List, Literal, Optional, Tuple
 
 from cloudpathlib import AnyPath
+from loguru import logger
 from pydantic import BaseModel, FieldValidationInfo, field_validator
 
 from sm_trendy.utilities.config import PathParams, convert_path
@@ -51,7 +52,7 @@ class SerpAPIParams(BaseModel):
         "today 12-m",
         "today 5-y",
         "all",
-    ]
+    ] = "today 5-y"
 
     @field_validator("date")
     @classmethod
@@ -147,10 +148,16 @@ class SerpAPIConfigBundle:
     def __init__(self, file_path: AnyPath, serpapi_key: Optional[str] = None):
         self.file_path = file_path
         self.serpapi_key = serpapi_key
-        raw_configs = self._load_json(self.file_path)
-        self.configs, self.global_config = self._combine_configs(
-            raw_configs=raw_configs
-        )
+        self.raw_configs = self._load_json(self.file_path)
+
+    @property
+    def configs(self) -> List[SerpAPIConfig]:
+
+        return self._combine_configs(raw_configs=self.raw_configs)
+
+    @property
+    def global_config(self) -> Dict:
+        return self._transform_raw_global_config(self.raw_configs["global"])
 
     def _combine_configs(self, raw_configs: Dict) -> Tuple[List[SerpAPIConfig], Dict]:
         global_config = self._transform_raw_global_config(raw_configs["global"])
@@ -164,7 +171,7 @@ class SerpAPIConfigBundle:
             for k in raw_configs["keywords"]
         ]
 
-        return combined_configs, global_config
+        return combined_configs
 
     @staticmethod
     def _transform_raw_global_config(raw_global_config: Dict) -> Dict:
@@ -210,3 +217,17 @@ class SerpAPIConfigBundle:
     def __iter__(self):
         for item in self.configs:
             yield item
+
+    def __add__(self, o: List[Dict]):
+        keywords = self.raw_configs["keywords"]
+        keywords.extend(o)
+        self.raw_configs["keywords"] = keywords
+
+    def save_json(self, target_file_path: AnyPath):
+        """save raw config to path
+
+        :param target_file_path: where to save the json file
+        """
+        logger.info(f"Saving to path {target_file_path}")
+        with open(target_file_path, "w") as fp:
+            json.dump(self.raw_configs, fp)

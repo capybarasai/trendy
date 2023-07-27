@@ -8,6 +8,7 @@ from cloudpathlib import AnyPath
 from dotenv import load_dotenv
 from loguru import logger
 from rich.console import Console
+from rich.prompt import Prompt
 
 import sm_trendy.use_pytrends.config as ptc
 import sm_trendy.use_pytrends.get_trends as ptg
