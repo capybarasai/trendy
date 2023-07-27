@@ -5,7 +5,8 @@ import json
 from typing import Dict, List, Literal, Optional, Tuple
 
 from cloudpathlib import AnyPath
-from pydantic import BaseModel
+from loguru import logger
+from pydantic import BaseModel, FieldValidationInfo, field_validator
 
 from sm_trendy.utilities.config import PathParams, convert_path
 
@@ -41,7 +42,36 @@ class SerpAPIParams(BaseModel):
     ] = "TIMESERIES"
     tz: Optional[str] = "120"
     cat: Optional[Literal["0"]] = None
-    date: str = "today 5-y"
+    date: Literal[
+        "now 1-H",
+        "now 4-H",
+        "now 1-d",
+        "now 7-d",
+        "today 1-m",
+        "today 3-m",
+        "today 12-m",
+        "today 5-y",
+        "all",
+    ] = "today 5-y"
+
+    @field_validator("date")
+    @classmethod
+    def date_match_allowed(cls, v: str, info: FieldValidationInfo):
+        allowed = [
+            "now 1-H",
+            "now 4-H",
+            "now 1-d",
+            "now 7-d",
+            "today 1-m",
+            "today 3-m",
+            "today 12-m",
+            "today 5-y",
+            "all",
+        ]
+        if v not in allowed:
+            raise ValueError(f"date must be one of {allowed}")
+
+        return v
 
 
 class SerpAPIConfig:
@@ -105,6 +135,9 @@ class SerpAPIConfig:
             self.serpapi_params.geo == self.path_params.geo
         ), "trend geo and path geo should match"
 
+        assert hasattr(self.serpapi_params, "q"), "serpapi_params should have q"
+        assert hasattr(self.serpapi_params, "geo"), "serpapi_params should have geo"
+
 
 class SerpAPIConfigBundle:
     """Build a list of configs from file
@@ -115,12 +148,18 @@ class SerpAPIConfigBundle:
     def __init__(self, file_path: AnyPath, serpapi_key: Optional[str] = None):
         self.file_path = file_path
         self.serpapi_key = serpapi_key
-        raw_configs = self._load_json(self.file_path)
-        self.configs, self.global_config = self._combine_configs(
-            raw_configs=raw_configs
-        )
+        self.raw_configs = self._load_json(self.file_path)
 
-    def _combine_configs(self, raw_configs: Dict) -> Tuple[List[SerpAPIConfig], Dict]:
+    @property
+    def configs(self) -> List[SerpAPIConfig]:
+
+        return self._combine_configs(raw_configs=self.raw_configs)
+
+    @property
+    def global_config(self) -> Dict:
+        return self._transform_raw_global_config(self.raw_configs["global"])
+
+    def _combine_configs(self, raw_configs: Dict) -> List[SerpAPIConfig]:
         global_config = self._transform_raw_global_config(raw_configs["global"])
 
         combined_configs = [
@@ -132,7 +171,7 @@ class SerpAPIConfigBundle:
             for k in raw_configs["keywords"]
         ]
 
-        return combined_configs, global_config
+        return combined_configs
 
     @staticmethod
     def _transform_raw_global_config(raw_global_config: Dict) -> Dict:
@@ -178,3 +217,17 @@ class SerpAPIConfigBundle:
     def __iter__(self):
         for item in self.configs:
             yield item
+
+    def __add__(self, o: List[Dict]):
+        keywords = self.raw_configs["keywords"]
+        keywords.extend(o)
+        self.raw_configs["keywords"] = keywords
+
+    def save_json(self, target_file_path: AnyPath):
+        """save raw config to path
+
+        :param target_file_path: where to save the json file
+        """
+        logger.info(f"Saving to path {target_file_path}")
+        with open(target_file_path, "w") as fp:
+            json.dump(self.raw_configs, fp)
