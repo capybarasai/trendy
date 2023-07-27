@@ -159,7 +159,7 @@ class SerpAPIConfigBundle:
     def global_config(self) -> Dict:
         return self._transform_raw_global_config(self.raw_configs["global"])
 
-    def _combine_configs(self, raw_configs: Dict) -> Tuple[List[SerpAPIConfig], Dict]:
+    def _combine_configs(self, raw_configs: Dict) -> List[SerpAPIConfig]:
         global_config = self._transform_raw_global_config(raw_configs["global"])
 
         combined_configs = [
