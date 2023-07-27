@@ -97,7 +97,12 @@ class ConfigTable:
         )
         n_configs = len(self.config_bundle)
         table = Table(
-            title=f"Configs: {n_configs}; Path: {str(parent_folder)}", show_lines=True
+            title=(
+                f"Configs: {n_configs};\n"
+                f"Path: {str(parent_folder)};\n"
+                f"Top N: {top_n}"
+            ),
+            show_lines=True,
         )
 
         table.add_column("q", justify="right", style="cyan", no_wrap=False)

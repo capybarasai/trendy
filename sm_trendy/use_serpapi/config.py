@@ -5,7 +5,7 @@ import json
 from typing import Dict, List, Literal, Optional, Tuple
 
 from cloudpathlib import AnyPath
-from pydantic import BaseModel
+from pydantic import BaseModel, FieldValidationInfo, field_validator
 
 from sm_trendy.utilities.config import PathParams, convert_path
 
@@ -41,7 +41,36 @@ class SerpAPIParams(BaseModel):
     ] = "TIMESERIES"
     tz: Optional[str] = "120"
     cat: Optional[Literal["0"]] = None
-    date: str = "today 5-y"
+    date: Literal[
+        "now 1-H",
+        "now 4-H",
+        "now 1-d",
+        "now 7-d",
+        "today 1-m",
+        "today 3-m",
+        "today 12-m",
+        "today 5-y",
+        "all",
+    ]
+
+    @field_validator
+    @classmethod
+    def date_match_allowed(cls, v: str, info: FieldValidationInfo):
+        allowed = [
+            "now 1-H",
+            "now 4-H",
+            "now 1-d",
+            "now 7-d",
+            "today 1-m",
+            "today 3-m",
+            "today 12-m",
+            "today 5-y",
+            "all",
+        ]
+        if v not in allowed:
+            raise ValueError(f"date must be one of {allowed}")
+
+        return v
 
 
 class SerpAPIConfig:
@@ -104,6 +133,8 @@ class SerpAPIConfig:
         assert (
             self.serpapi_params.geo == self.path_params.geo
         ), "trend geo and path geo should match"
+
+        assert self.serpapi_params.q
 
 
 class SerpAPIConfigBundle:
