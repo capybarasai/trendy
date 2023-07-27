@@ -167,3 +167,9 @@ def validate_config(config_file: AnyPath, top_n: int):
 
     api_key = os.environ.get("SERPAPI_KEY")
     console.print(f"SERPAPI_KEY Exists: {api_key is not None}")
+
+    for c in scb:
+        try:
+            c._validate()
+        except Exception as e:
+            logger.error(f"Keyword: {c.serpapi_params.q} validation failed: {e}")

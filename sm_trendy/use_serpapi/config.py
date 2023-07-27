@@ -53,7 +53,7 @@ class SerpAPIParams(BaseModel):
         "all",
     ]
 
-    @field_validator
+    @field_validator("date")
     @classmethod
     def date_match_allowed(cls, v: str, info: FieldValidationInfo):
         allowed = [
@@ -134,7 +134,8 @@ class SerpAPIConfig:
             self.serpapi_params.geo == self.path_params.geo
         ), "trend geo and path geo should match"
 
-        assert self.serpapi_params.q
+        assert hasattr(self.serpapi_params, "q"), "serpapi_params should have q"
+        assert hasattr(self.serpapi_params, "geo"), "serpapi_params should have geo"
 
 
 class SerpAPIConfigBundle:
