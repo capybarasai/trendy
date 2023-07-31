@@ -188,6 +188,8 @@ class StoreJSON:
         :param trend_data: the object containing the dataframe and metadata
         :param formats: which formats to save as
         """
+        if not isinstance(formats, list):
+            formats = [formats]
 
         format_dispatcher = {
             "json": {

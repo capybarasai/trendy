@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Literal, Optional
 
 import pandas as pd
 from cloudpathlib import AnyPath
+from loguru import logger
 
 from sm_trendy.utilities.config import PathParams
 
@@ -64,7 +65,7 @@ class DownloadedLoader:
 
         return df
 
-    def __call__(self, path_params) -> pd.DataFrame:
+    def __call__(self, path_params: PathParams) -> pd.DataFrame:
         """
         load the data specified in a PathParams as pandas dataframe
 
@@ -78,12 +79,14 @@ class DownloadedLoader:
     @staticmethod
     def _latest_snapshots(path: AnyPath):
         path_subfolders = list(path.iterdir())
+        logger.debug(f"subfolders: {path_subfolders} in {path}")
 
         re_sd = re.compile(r"snapshot_date=(\d{4}-\d{2}-\d{2})")
 
         snapshot_dates = sum(
             [re_sd.findall(i.name) for i in path_subfolders], []
         )  # type: List[str]
+        logger.debug(f"snapshot_dates: {snapshot_dates}")
 
         snapshot_dates_latest = sorted(
             snapshot_dates, key=lambda x: datetime.date.fromisoformat(x)
