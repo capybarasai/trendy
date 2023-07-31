@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import random
 import time
@@ -174,3 +175,26 @@ def validate_config(config_file: AnyPath, top_n: int):
             c._validate()
         except Exception as e:
             logger.error(f"Keyword: {c.serpapi_params.q} validation failed: {e}")
+
+
+@trendy.command()
+@click.argument("config-file", type=AnyPath)
+def agg(config_file: AnyPath):
+    """Aggregate the downloaded results into single files
+
+    For example, `s3://sm-google-trend/configs/aggregate_config.json`
+
+    :param config_file: location of a config file that contains
+        the configurations and the keywords
+    """
+    click.echo(f"Aggregation config: {click.format_filename(str(config_file))}")
+
+    with open(config_file, "r") as fp:
+        config = json.load(fp)
+
+    parent_folder = AnyPath(config["global"]["path"]["parent_folder"])
+    for k in config["keywords"]:
+        keyword_configs = k["config"]
+        scb_k = SerpAPIConfigBundle(file_path=keyword_configs, serpapi_key="")
+        for c_k in scb_k:
+            c_k_path = c_k.path_params.path(parent_folder=parent_folder)
