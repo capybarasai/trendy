@@ -119,7 +119,9 @@ class AggAPIJSON:
         self.fields = fields
         self.keep_columns = list(fields.keys())
 
-    def __call__(self, dataframe: pd.DataFrame, sort_by: Optional[str] = None) -> Dict:
+    def __call__(
+        self, dataframe: pd.DataFrame, sort_by: Optional[str] = None
+    ) -> List[Dict]:
         df = dataframe.copy()
         df = df[self.keep_columns]
         df.rename(columns=self.fields, inplace=True)
@@ -203,4 +205,4 @@ class AggSerpAPIBundle:
             target_folder=target_folder,
             snapshot_date=snapshot_date,
         )
-        store_json.save(records=records, formats="json")
+        store_json.save(records=records, formats=["json"])
