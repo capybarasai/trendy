@@ -1,0 +1,12 @@
+{
+    "global": {
+        "path": {
+            "parent_folder": "/tmp/sm-google-trend/agg"
+        }
+    },
+    "keywords": [
+        {
+            "config": "../use_serpapi/test_serpapi_config.json"
+        }
+    ]
+}
