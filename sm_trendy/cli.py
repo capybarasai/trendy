@@ -13,7 +13,7 @@ from rich.prompt import Prompt
 
 import sm_trendy.use_pytrends.config as ptc
 import sm_trendy.use_pytrends.get_trends as ptg
-from sm_trendy.aggregate.agg import AggAPIJSON, DownloadedLoader
+from sm_trendy.aggregate.agg import AggAPIJSON, AggSerpAPIBundle, DownloadedLoader
 from sm_trendy.manual.config import SerpAPI2Manual
 from sm_trendy.manual.get_trends import ManualDownload
 from sm_trendy.use_serpapi.config import SerpAPIConfigBundle
@@ -197,33 +197,9 @@ def agg(config_file: AnyPath):
         config = json.load(fp)
 
     parent_folder = AnyPath(config["global"]["path"]["parent_folder"])
+    agg_bundle = AggSerpAPIBundle(parent_path=parent_folder)
 
     for k in config["keywords"]:
         keyword_configs = AnyPath(k["config"])
         logger.info(f"Aggregating {keyword_configs}")
-
-        scb_k = SerpAPIConfigBundle(file_path=keyword_configs, serpapi_key="")
-        scb_k_parent_folder = scb_k.global_config["path"]["parent_folder"]
-        dll_k = DownloadedLoader(parent_folder=scb_k_parent_folder, from_format="csv")
-        for c_k in scb_k:
-            logger.debug(f"  Aggregating {c_k}")
-            c_k_path = c_k.path_params.path(parent_folder=scb_k_parent_folder)
-            c_k_df = dll_k(c_k.path_params)
-
-            # aggregate
-            c_k_snapshot_date = dll_k._latest_snapshots(c_k_path / "format=csv")
-            c_k_agg_json = AggAPIJSON()
-
-            c_k_records = c_k_agg_json(dataframe=c_k_df, sort_by="date")
-
-            # save
-            c_k_target_path = c_k.path_params.path(parent_folder=parent_folder)
-            c_k_store_json = StoreJSON(
-                target_folder=c_k_target_path,
-                snapshot_date=datetime.date.fromisoformat(c_k_snapshot_date),
-            )
-            c_k_store_json_latest = StoreJSON(
-                target_folder=c_k_target_path, snapshot_date="latest"
-            )
-            c_k_store_json.save(records=c_k_records, formats="json")
-            c_k_store_json_latest.save(records=c_k_records, formats="json")
+        agg_bundle(serpapi_config_path=keyword_configs)
