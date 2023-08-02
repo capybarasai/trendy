@@ -5,7 +5,7 @@ import random
 import time
 
 import click
-from cloudpathlib import AnyPath
+from cloudpathlib import AnyPath, S3Path
 from dotenv import load_dotenv
 from loguru import logger
 from rich.console import Console
@@ -203,3 +203,66 @@ def agg(config_file: AnyPath):
         keyword_configs = AnyPath(k["config"])
         logger.info(f"Aggregating {keyword_configs}")
         agg_bundle(serpapi_config_path=keyword_configs)
+
+
+@trendy.command()
+@click.argument("config-file", type=AnyPath)
+def agg_metadata(config_file: AnyPath):
+    """Convert configs to a json file that our
+    website can get a list of keywords and
+    their corresponding path, for visualizations.
+
+    `config_file` should have the same format as aggregation config, e.g., `s3://sm-google-trend/configs/aggregate_config.json`
+
+    :param config_file: location of a config file that contains
+        the configurations and the keywords
+    """
+    click.echo(f"Using aggregation config: {click.format_filename(str(config_file))}")
+
+    if not isinstance(config_file, AnyPath):
+        config_file = AnyPath(config_file)
+
+    with open(config_file, "r") as fp:
+        config = json.load(fp)
+
+    parent_folder = AnyPath(config["global"]["path"]["parent_folder"])
+
+    if not isinstance(parent_folder, S3Path):
+        raise Exception(f"parent folder is not S3Path: {parent_folder}")
+
+    s3_public_region = "eu-central-1"
+    s3_public_base_url = (
+        f"https://{parent_folder.bucket}.s3.{s3_public_region}.amazonaws.com"
+    )
+    all_config = []
+    for k in config["keywords"]:
+        keyword_configs = AnyPath(k["config"])
+        logger.info(f"Parsing {keyword_configs}")
+
+        scb = SerpAPIConfigBundle(file_path=keyword_configs, serpapi_key="")
+
+        for c in scb:
+            logger.debug(f"  Converting {c.path_params}")
+            # URL of the data file
+            c_url = c.path_params.s3_access_point(
+                base_url=s3_public_base_url,
+                snapshot_date="latest",
+                filename="data.json",
+            )
+
+            # Build Path Config
+            all_config.append(
+                {
+                    "keyword": c.path_params.keyword,
+                    "cat": c.path_params.cat,
+                    "geo": c.path_params.geo,
+                    "timeframe": c.path_params.timeframe,
+                    "path": c_url,
+                }
+            )
+
+    # save all to a metadata.json file
+    target_path = parent_folder / "metadata.json"
+    logger.info(f"Saving metadata to {target_path} ...")
+    with target_path.open("w+") as fp:
+        json.dump(all_config, fp)
