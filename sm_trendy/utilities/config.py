@@ -1,6 +1,7 @@
 import copy
+import datetime
 from collections import OrderedDict
-from typing import Dict, Literal, Optional
+from typing import Dict, Literal, Optional, Union
 
 from cloudpathlib import AnyPath
 from pydantic import BaseModel
@@ -76,6 +77,33 @@ class PathParams(BaseModel):
             folder = folder / f"{k}={self.path_schema[k]}"
 
         return folder
+
+    def s3_access_point(
+        self,
+        base_url: str,
+        snapshot_date: Union[datetime.date, Literal["latest"]] = "latest",
+        filename: Optional[str] = "data.json",
+    ):
+        """
+        An access point is some kind of URL. For example
+        https://sm-google-trend-public.s3.eu-central-1.amazonaws.com/
+        agg/keyword=curtain/cat=0/geo=de/timeframe=today-5-y/format=json/
+        snapshot_date=latest/data.json
+
+        :param base_url: base url to append the path to
+        :param snapshot_date: snapshot of the file
+        :param filename: name of the file
+        """
+        if base_url.endswith("/"):
+            base_url = base_url[:-1]
+
+        url = base_url
+        for k in self.path_schema:
+            url += f"/{k}={self.path_schema[k]}"
+
+        url += f"/snapshot_date={snapshot_date}/{filename}"
+
+        return url
 
 
 class ConfigTable:
