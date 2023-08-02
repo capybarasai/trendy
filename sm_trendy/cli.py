@@ -243,7 +243,7 @@ def agg_metadata(config_file: AnyPath):
 
         for c in scb:
             logger.debug(f"  Converting {c.path_params}")
-            # Path of the raw downloaded data
+            # URL of the data file
             c_url = c.path_params.s3_access_point(
                 base_url=s3_public_base_url,
                 snapshot_date="latest",
