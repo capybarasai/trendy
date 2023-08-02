@@ -231,9 +231,10 @@ def agg_metadata(config_file: AnyPath):
         raise Exception(f"parent folder is not S3Path: {parent_folder}")
 
     s3_public_region = "eu-central-1"
-    s3_public_base_url = (
-        f"https://{parent_folder.bucket}.s3.{s3_public_region}.amazonaws.com"
+    s3_public_folder = (
+        parent_folder.key[:-1] if parent_folder.key.endswith("/") else parent_folder.key
     )
+    s3_public_base_url = f"https://{parent_folder.bucket}.s3.{s3_public_region}.amazonaws.com/{s3_public_folder}"
     all_config = []
     for k in config["keywords"]:
         keyword_configs = AnyPath(k["config"])

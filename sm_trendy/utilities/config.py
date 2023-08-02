@@ -82,6 +82,7 @@ class PathParams(BaseModel):
         self,
         base_url: str,
         snapshot_date: Union[datetime.date, Literal["latest"]] = "latest",
+        format: Optional[Literal["json"]] = "json",
         filename: Optional[str] = "data.json",
     ):
         """
@@ -101,7 +102,7 @@ class PathParams(BaseModel):
         for k in self.path_schema:
             url += f"/{k}={self.path_schema[k]}"
 
-        url += f"/snapshot_date={snapshot_date}/{filename}"
+        url += f"/format={format}/snapshot_date={snapshot_date}/{filename}"
 
         return url
 
