@@ -10,12 +10,13 @@ def path_params():
 
 def test_path_params_s3(path_params):
     url = path_params.s3_access_point(
-        base_url="https://sm-google-trend-public.s3.eu-central-1.amazonaws.com",
+        base_url="https://sm-google-trend-public.s3.eu-central-1.amazonaws.com/agg",
         snapshot_date="latest",
         filename="data.json",
     )
 
     assert url == (
-        "https://sm-google-trend-public.s3.eu-central-1.amazonaws.com"
-        "/keyword=curtain/cat=0/geo=de/timeframe=today-5-y/snapshot_date=latest/data.json"
+        "https://sm-google-trend-public.s3.eu-central-1.amazonaws.com/agg"
+        "/keyword=curtain/cat=0/geo=de/timeframe=today-5-y"
+        "/format=json/snapshot_date=latest/data.json"
     )

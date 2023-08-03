@@ -1,0 +1,63 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.4, pytest-7.4.0, pluggy-1.2.0
+rootdir: /Users/leima/git/github/capybarasai/trendy
+plugins: cov-4.1.0, mock-3.11.1, anyio-3.7.1
+collected 17 items
+
+tests/test_agg/test_agg.py ..                                            [ 11%]
+tests/test_manual/test_config.py .                                       [ 17%]
+tests/test_manual/test_get_trends.py .                                   [ 23%]
+tests/test_use_pytrends/test_config.py ....                              [ 47%]
+tests/test_use_pytrends/test_get_trends.py ..                            [ 58%]
+tests/test_use_serpapi/test_config.py ...                                [ 76%]
+tests/test_use_serpapi/test_get_trends.py ..                             [ 88%]
+tests/test_utilities/test_config.py .                                    [ 94%]
+tests/test_utilities/test_storage.py .                                   [100%]
+
+---------- coverage: platform darwin, python 3.11.4-final-0 ----------
+Name                                         Stmts   Miss  Cover
+----------------------------------------------------------------
+sm_trendy/__init__.py                            0      0   100%
+sm_trendy/aggregate/__init__.py                  0      0   100%
+sm_trendy/aggregate/agg.py                      76     21    72%
+sm_trendy/aggregate/config.py                    0      0   100%
+sm_trendy/cli.py                               146    146     0%
+sm_trendy/manual/__init__.py                     0      0   100%
+sm_trendy/manual/config.py                      16      0   100%
+sm_trendy/manual/get_trends.py                  45     11    76%
+sm_trendy/use_pytrends/__init__.py               0      0   100%
+sm_trendy/use_pytrends/config.py                61      4    93%
+sm_trendy/use_pytrends/get_trends.py            58     18    69%
+sm_trendy/use_serpapi/__init__.py                0      0   100%
+sm_trendy/use_serpapi/config.py                 87     12    86%
+sm_trendy/use_serpapi/get_trends.py             52     19    63%
+sm_trendy/utilities/__init__.py                  0      0   100%
+sm_trendy/utilities/config.py                   62     15    76%
+sm_trendy/utilities/request.py                  35     35     0%
+sm_trendy/utilities/storage.py                  81     13    84%
+tests/__init__.py                                0      0   100%
+tests/conftest.py                                8      0   100%
+tests/data/__init__.py                           0      0   100%
+tests/data/aggregate/__init__.py                 0      0   100%
+tests/data/manual/__init__.py                    0      0   100%
+tests/data/use_serpapi/__init__.py               0      0   100%
+tests/test_agg/__init__.py                       0      0   100%
+tests/test_agg/test_agg.py                      31      0   100%
+tests/test_manual/__init__.py                    0      0   100%
+tests/test_manual/conftest.py                    7      0   100%
+tests/test_manual/test_config.py                 5      0   100%
+tests/test_manual/test_get_trends.py             8      0   100%
+tests/test_use_pytrends/__init__.py              0      0   100%
+tests/test_use_pytrends/test_config.py          27      0   100%
+tests/test_use_pytrends/test_get_trends.py      36      0   100%
+tests/test_use_serpapi/__init__.py               0      0   100%
+tests/test_use_serpapi/test_config.py           17      0   100%
+tests/test_use_serpapi/test_get_trends.py       15      0   100%
+tests/test_utilities/__init__.py                 0      0   100%
+tests/test_utilities/test_config.py              8      0   100%
+tests/test_utilities/test_storage.py            11      0   100%
+----------------------------------------------------------------
+TOTAL                                          892    294    67%
+
+
+============================== 17 passed in 1.20s ==============================
