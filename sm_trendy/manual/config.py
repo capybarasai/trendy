@@ -2,6 +2,7 @@ import json
 from typing import Any
 
 from cloudpathlib import AnyPath
+from loguru import logger
 
 from sm_trendy.use_serpapi.config import SerpAPIConfigBundle
 
@@ -33,5 +34,6 @@ class SerpAPI2Manual:
             c_temp_path = c.path_params.path(parent_folder=self.manual_folder)
             c_temp_path.mkdir(parents=True, exist_ok=True)
 
+            logger.debug(f'Writing to {c_temp_path / "manual.json"} ...')
             with open(c_temp_path / "manual.json", "w") as fp:
                 json.dump(manual_config, fp)
