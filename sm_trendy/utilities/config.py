@@ -38,7 +38,8 @@ class PathParams(BaseModel):
     """parameters to be used to build the folder
     path of the data files.
 
-    !!! note:
+    !!! note
+
         We will have to keep the order of the parameters.
 
         Pydantic already tries to provide ordered schema.
@@ -68,7 +69,7 @@ class PathParams(BaseModel):
     def path(self, parent_folder: AnyPath) -> AnyPath:
         """build the path under the parent folder
 
-        :parent_folder: base path
+        :param parent_folder: base path
         """
         if not isinstance(parent_folder, AnyPath):
             parent_folder = AnyPath(parent_folder)
@@ -111,7 +112,7 @@ class ConfigTable:
     """
     ConfigBundle to table
 
-    :config_bundle: serpapi config bundle
+    :param config_bundle: serpapi config bundle
     """
 
     def __init__(self, config_bundle):

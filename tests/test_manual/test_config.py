@@ -6,7 +6,7 @@ def test_serpapi_to_manual(tmp_path, serpapi_config_bundle):
 
     m(serpapi_config_bundle)
 
-    assert [p.name for p in tmp_path.iterdir()] == [
+    assert {p.name for p in tmp_path.iterdir()} == {
         "keyword=phone-case",
         "keyword=curtain",
-    ]
+    }
