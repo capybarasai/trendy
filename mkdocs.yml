@@ -77,6 +77,7 @@ nav:
   - "Home": index.md
   - "Tutorials":
     - "Introduction": tutorials/index.md
+    - "Use SerpAPI": tutorials/use_serpapi.md
   - References:
     - "Introduction": references/index.md
     - "Utilities":
