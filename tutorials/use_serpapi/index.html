@@ -12,21 +12,27 @@
         <meta name="author" content="Capybaras AI">
       
       
+        <link rel="canonical" href="https://capybarasai.github.io/trendy/tutorials/use_serpapi/">
       
       
-      <link rel="icon" href="/trendy/assets/capybaras-ai-logo.png">
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../references/">
+      
+      <link rel="icon" href="../../assets/capybaras-ai-logo.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
-        <title>Trendy</title>
+        <title>Use SerpAPI - Trendy</title>
       
     
     
-      <link rel="stylesheet" href="/trendy/assets/stylesheets/main.eebd395e.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
       
         
-        <link rel="stylesheet" href="/trendy/assets/stylesheets/palette.ecc896b0.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -42,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="/trendy/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/trendy/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,6 +78,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#use-serpapi" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -82,9 +93,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/trendy/." title="Trendy" class="md-header__button md-logo" aria-label="Trendy" data-md-component="logo">
+    <a href="../.." title="Trendy" class="md-header__button md-logo" aria-label="Trendy" data-md-component="logo">
       
-  <img src="/trendy/assets/capybaras-ai-logo.png" alt="logo">
+  <img src="../../assets/capybaras-ai-logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -100,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Use SerpAPI
             
           </span>
         </div>
@@ -201,7 +212,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="/trendy/." class="md-tabs__link">
+    <a href="../.." class="md-tabs__link">
       Home
     </a>
   </li>
@@ -210,13 +221,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="/trendy/tutorials/" class="md-tabs__link">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
         Tutorials
       </a>
     </li>
@@ -232,7 +245,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/trendy/references/" class="md-tabs__link">
+      <a href="../../references/" class="md-tabs__link">
         References
       </a>
     </li>
@@ -245,7 +258,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="/trendy/changelog/" class="md-tabs__link">
+    <a href="../../changelog/" class="md-tabs__link">
       Changelog
     </a>
   </li>
@@ -272,9 +285,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/trendy/." title="Trendy" class="md-nav__button md-logo" aria-label="Trendy" data-md-component="logo">
+    <a href="../.." title="Trendy" class="md-nav__button md-logo" aria-label="Trendy" data-md-component="logo">
       
-  <img src="/trendy/assets/capybaras-ai-logo.png" alt="logo">
+  <img src="../../assets/capybaras-ai-logo.png" alt="logo">
 
     </a>
     Trendy
@@ -302,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -315,14 +328,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
       
       
       
@@ -331,7 +346,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Tutorials
@@ -344,7 +359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/tutorials/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -356,11 +371,59 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="/trendy/tutorials/use_serpapi/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Use SerpAPI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Use SerpAPI
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#config" class="md-nav__link">
+    Config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -407,7 +470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/" class="md-nav__link">
+      <a href="../../references/" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -450,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/utilities/config/" class="md-nav__link">
+      <a href="../../references/utilities/config/" class="md-nav__link">
         Utilities - Config
       </a>
     </li>
@@ -464,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/utilities/storage/" class="md-nav__link">
+      <a href="../../references/utilities/storage/" class="md-nav__link">
         Utilities - Storage
       </a>
     </li>
@@ -478,7 +541,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/utilities/request/" class="md-nav__link">
+      <a href="../../references/utilities/request/" class="md-nav__link">
         Utilities - Request
       </a>
     </li>
@@ -528,7 +591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/use_serpapi/config/" class="md-nav__link">
+      <a href="../../references/use_serpapi/config/" class="md-nav__link">
         SERPAPI - Config
       </a>
     </li>
@@ -542,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/use_serpapi/get_trends/" class="md-nav__link">
+      <a href="../../references/use_serpapi/get_trends/" class="md-nav__link">
         SERPAPI - Trends
       </a>
     </li>
@@ -592,7 +655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/manual/config/" class="md-nav__link">
+      <a href="../../references/manual/config/" class="md-nav__link">
         Manual - Config
       </a>
     </li>
@@ -606,7 +669,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/manual/get_trends/" class="md-nav__link">
+      <a href="../../references/manual/get_trends/" class="md-nav__link">
         Manual - Trends
       </a>
     </li>
@@ -656,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/aggregate/config/" class="md-nav__link">
+      <a href="../../references/aggregate/config/" class="md-nav__link">
         Aggregate - Config
       </a>
     </li>
@@ -670,7 +733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/aggregate/agg/" class="md-nav__link">
+      <a href="../../references/aggregate/agg/" class="md-nav__link">
         Manual - Agg
       </a>
     </li>
@@ -720,7 +783,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/use_pytrends/config/" class="md-nav__link">
+      <a href="../../references/use_pytrends/config/" class="md-nav__link">
         Manual - Config
       </a>
     </li>
@@ -734,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/references/use_pytrends/get_trends/" class="md-nav__link">
+      <a href="../../references/use_pytrends/get_trends/" class="md-nav__link">
         Manual - Trends
       </a>
     </li>
@@ -763,7 +826,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/trendy/changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         Changelog
       </a>
     </li>
@@ -787,6 +850,30 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#config" class="md-nav__link">
+    Config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -798,8 +885,55 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+  
+  
+
+
+<h1 id="use-serpapi">Use SerpAPI<a class="headerlink" href="#use-serpapi" title="Permanent link">¤</a></h1>
+<p><a href="https://serpapi.com">SerpAPI</a> is a paid service for SERP download.</p>
+<h2 id="config">Config<a class="headerlink" href="#config" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;global&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;serpapi&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;today 5-y&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;tz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;120&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;parent_folder&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;s3://sm-google-trend/download/&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;serpapi&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;timeframe&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;today 5-y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DE&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;q&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;phone case&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;serpapi&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;timeframe&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;today 5-y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;geo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DE&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;q&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;curtain&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="download">Download<a class="headerlink" href="#download" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>run<span class="w"> </span>trendy<span class="w"> </span>download-serpapi<span class="w"> </span>s3://sm-google-trend/configs/serpapi_config_de.json
+</code></pre></div>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -831,13 +965,13 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "/trendy/", "features": ["navigation.sections", "navigation.tabs"], "search": "/trendy/assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/trendy/assets/javascripts/bundle.220ee61c.min.js"></script>
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
         
-          <script src="/trendy/javascripts/mathjax.js"></script>
+          <script src="../../javascripts/mathjax.js"></script>
         
       
         
