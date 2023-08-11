@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
-from typing import Dict, List, Literal, Optional, Tuple
+from typing import ClassVar, Dict, List, Literal, Optional, Tuple
 
 from cloudpathlib import AnyPath
 from loguru import logger
@@ -86,9 +86,11 @@ class SerpAPIConfig:
         self,
         serpapi_params: SerpAPIParams,
         path_params: PathParams,
+        extra_metadata: Optional[Dict] = {},
     ):
         self.serpapi_params = serpapi_params
         self.path_params = path_params
+        self.extra_metadata = extra_metadata
 
     @classmethod
     def from_dict(cls, config: Dict) -> SerpAPIConfig:
@@ -120,10 +122,12 @@ class SerpAPIConfig:
                 "timeframe": serpapi_params.date,
             }
         )
+        extra_metadata = config["serpapi"]
 
         return SerpAPIConfig(
             serpapi_params=serpapi_params,
             path_params=path_params,
+            extra_metadata=extra_metadata,
         )
 
     def _validate(self):

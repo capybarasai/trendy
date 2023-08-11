@@ -82,6 +82,25 @@ def test_serpapi_config():
     assert hasattr(sc, "path_params")
 
 
+def test_serpapi_config_topic():
+    raw_config = {
+        "serpapi": {
+            "api_key": "",
+            "date": "today 5-y",
+            "cat": "0",
+            "geo": "DE",
+            "q": "/m/adsfasdfas",
+            "tz": "120",
+            "topic": "ABC",
+        }
+    }
+
+    sc = SerpAPIConfig.from_dict(raw_config)
+
+    assert "topic" not in sc.serpapi_params.model_dump(exclude_none=True)
+    assert hasattr(sc, "extra_metadata")
+
+
 def test_serpapi_config_bundle(data_directory):
 
     config_path = data_directory / "use_serpapi" / "test_serpapi_config.json"

@@ -254,7 +254,7 @@ def agg_metadata(config_file: AnyPath):
             # Build Path Config
             all_config.append(
                 {
-                    "keyword": c.path_params.keyword,
+                    "keyword": c.extra_metadata.get("topic") or c.path_params.keyword,
                     "cat": c.path_params.cat,
                     "geo": c.path_params.geo,
                     "timeframe": c.path_params.timeframe,

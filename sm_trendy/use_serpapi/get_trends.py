@@ -1,6 +1,6 @@
 import datetime
 from functools import cached_property
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 
 import pandas as pd
 from cloudpathlib import AnyPath
@@ -26,8 +26,11 @@ results = search.get_dict()
 
 
 class SerpAPISingleTrend:
-    def __init__(self, serpapi_params: SerpAPIParams):
+    def __init__(
+        self, serpapi_params: SerpAPIParams, extra_metadata: Optional[Dict] = {}
+    ):
         self.serpapi_params = serpapi_params
+        self.extra_metadata = extra_metadata
 
     @cached_property
     def search_results(self):
@@ -80,6 +83,7 @@ class SerpAPISingleTrend:
         return {
             "search_metadata": self.search_results["search_metadata"],
             "search_parameters": self.search_results["search_parameters"],
+            "extra_metadata": self.extra_metadata,
         }
 
 
@@ -118,7 +122,9 @@ class SerpAPIDownload:
             "..."
         )
 
-        sst = SerpAPISingleTrend(serpapi_params=api_params)
+        sst = SerpAPISingleTrend(
+            serpapi_params=api_params, extra_metadata=config.extra_metadata
+        )
 
         sdf.save(sst, formats=["csv", "parquet"])
         logger.info(f"Saved to {target_folder}")
