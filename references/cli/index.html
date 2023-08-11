@@ -1166,7 +1166,7 @@ their corresponding path, for visualizations.</p>
             <span class="c1"># Build Path Config</span>
             <span class="n">all_config</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">keyword</span><span class="p">,</span>
+                    <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">extra_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">keyword</span><span class="p">,</span>
                     <span class="s2">&quot;cat&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">cat</span><span class="p">,</span>
                     <span class="s2">&quot;geo&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">geo</span><span class="p">,</span>
                     <span class="s2">&quot;timeframe&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">timeframe</span><span class="p">,</span>

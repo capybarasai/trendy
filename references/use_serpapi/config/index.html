@@ -1126,7 +1126,11 @@
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SerpAPIConfig</span><span class="p">:</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SerpAPIConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Config for downloading trends</span>
 
@@ -1138,9 +1142,11 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">serpapi_params</span><span class="p">:</span> <span class="n">SerpAPIParams</span><span class="p">,</span>
         <span class="n">path_params</span><span class="p">:</span> <span class="n">PathParams</span><span class="p">,</span>
+        <span class="n">extra_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serpapi_params</span> <span class="o">=</span> <span class="n">serpapi_params</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path_params</span> <span class="o">=</span> <span class="n">path_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra_metadata</span> <span class="o">=</span> <span class="n">extra_metadata</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SerpAPIConfig</span><span class="p">:</span>
@@ -1172,10 +1178,12 @@
                 <span class="s2">&quot;timeframe&quot;</span><span class="p">:</span> <span class="n">serpapi_params</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
+        <span class="n">extra_metadata</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;serpapi&quot;</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">SerpAPIConfig</span><span class="p">(</span>
             <span class="n">serpapi_params</span><span class="o">=</span><span class="n">serpapi_params</span><span class="p">,</span>
             <span class="n">path_params</span><span class="o">=</span><span class="n">path_params</span><span class="p">,</span>
+            <span class="n">extra_metadata</span><span class="o">=</span><span class="n">extra_metadata</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1265,9 +1273,7 @@
 
           <details class="quote">
             <summary>Source code in <code>sm_trendy/use_serpapi/config.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
@@ -1299,7 +1305,11 @@
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SerpAPIConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load config from a dictionary</span>
@@ -1329,10 +1339,12 @@
             <span class="s2">&quot;timeframe&quot;</span><span class="p">:</span> <span class="n">serpapi_params</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
+    <span class="n">extra_metadata</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;serpapi&quot;</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">SerpAPIConfig</span><span class="p">(</span>
         <span class="n">serpapi_params</span><span class="o">=</span><span class="n">serpapi_params</span><span class="p">,</span>
         <span class="n">path_params</span><span class="o">=</span><span class="n">path_params</span><span class="p">,</span>
+        <span class="n">extra_metadata</span><span class="o">=</span><span class="n">extra_metadata</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -1396,11 +1408,7 @@
 
             <details class="quote">
               <summary>Source code in <code>sm_trendy/use_serpapi/config.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
@@ -1487,7 +1495,11 @@
 <span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
-<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SerpAPIConfigBundle</span><span class="p">:</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SerpAPIConfigBundle</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a list of configs from file</span>
 
 <span class="sd">    :param file_path: path to the file</span>
@@ -1641,14 +1653,14 @@
 
           <details class="quote">
             <summary>Source code in <code>sm_trendy/use_serpapi/config.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
-<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_file_path</span><span class="p">:</span> <span class="n">AnyPath</span><span class="p">):</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_file_path</span><span class="p">:</span> <span class="n">AnyPath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;save raw config to path</span>
 
 <span class="sd">    :param target_file_path: where to save the json file</span>
