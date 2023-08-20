@@ -250,6 +250,11 @@ def agg_metadata(config_file: AnyPath):
                 snapshot_date="latest",
                 filename="data.json",
             )
+            c_s3_path = c.path_params.s3_path(
+                parent_folder=parent_folder,
+                snapshot_date="latest",
+                filename="data.json",
+            )
 
             # Build Path Config
             all_config.append(
@@ -259,6 +264,8 @@ def agg_metadata(config_file: AnyPath):
                     "geo": c.path_params.geo,
                     "timeframe": c.path_params.timeframe,
                     "path": c_url,
+                    "q": c.path_params.keyword,
+                    "s3": str(c_s3_path),
                 }
             )
 

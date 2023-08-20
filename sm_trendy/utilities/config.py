@@ -107,6 +107,36 @@ class PathParams(BaseModel):
 
         return url
 
+    def s3_path(
+        self,
+        parent_folder: AnyPath,
+        snapshot_date: Union[datetime.date, Literal["latest"]] = "latest",
+        format: Optional[Literal["json"]] = "json",
+        filename: Optional[str] = "data.json",
+    ) -> AnyPath:
+        """build the path under the parent folder, for specific file name and format
+
+        :param parent_folder: base path
+        :param snapshot_date: which snapshot date to use
+        :param format: which format to take
+        :param filename: which file name to take
+        """
+        if not isinstance(parent_folder, AnyPath):
+            parent_folder = AnyPath(parent_folder)
+
+        folder = parent_folder
+        for k in self.path_schema:
+            folder = folder / f"{k}={self.path_schema[k]}"
+
+        path = (
+            folder
+            / f"format={format}"
+            / f"snapshot_date={snapshot_date}"
+            / f"{filename}"
+        )
+
+        return path
+
 
 class ConfigTable:
     """
