@@ -1117,7 +1117,14 @@ their corresponding path, for visualizations.</p>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
-<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@trendy</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@trendy</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s2">&quot;config-file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">AnyPath</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">agg_metadata</span><span class="p">(</span><span class="n">config_file</span><span class="p">:</span> <span class="n">AnyPath</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert configs to a json file that our</span>
@@ -1162,6 +1169,11 @@ their corresponding path, for visualizations.</p>
                 <span class="n">snapshot_date</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">,</span>
                 <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;data.json&quot;</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">c_s3_path</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">s3_path</span><span class="p">(</span>
+                <span class="n">parent_folder</span><span class="o">=</span><span class="n">parent_folder</span><span class="p">,</span>
+                <span class="n">snapshot_date</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">,</span>
+                <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;data.json&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
 
             <span class="c1"># Build Path Config</span>
             <span class="n">all_config</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -1171,6 +1183,8 @@ their corresponding path, for visualizations.</p>
                     <span class="s2">&quot;geo&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">geo</span><span class="p">,</span>
                     <span class="s2">&quot;timeframe&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">timeframe</span><span class="p">,</span>
                     <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">c_url</span><span class="p">,</span>
+                    <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">path_params</span><span class="o">.</span><span class="n">keyword</span><span class="p">,</span>
+                    <span class="s2">&quot;s3&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">c_s3_path</span><span class="p">),</span>
                 <span class="p">}</span>
             <span class="p">)</span>
 
