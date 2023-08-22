@@ -2,87 +2,87 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://capybarasai.github.io/trendy/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/changelog/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/cli/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/aggregate/agg/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/aggregate/config/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/manual/config/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/manual/get_trends/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/use_pytrends/config/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/use_pytrends/get_trends/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/use_serpapi/config/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/use_serpapi/get_trends/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/utilities/config/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/utilities/request/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/references/utilities/storage/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/tutorials/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://capybarasai.github.io/trendy/tutorials/use_serpapi/</loc>
-         <lastmod>2023-08-20</lastmod>
+         <lastmod>2023-08-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
