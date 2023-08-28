@@ -74,7 +74,11 @@ def download_pytrends(config_file: AnyPath):
 
 @trendy.command()
 @click.argument("config-file", type=AnyPath)
-def download_serpapi(config_file: AnyPath):
+@click.argument("wait-seconds-min", type=int, default=5)
+@click.argument("wait-seconds-max", type=int, default=10)
+def download_serpapi(
+    config_file: AnyPath, wait_seconds_min: int, wait_seconds_max: int
+):
     """Download trends based on the config file
 
     :param config_file: location of a config file that contains
@@ -93,7 +97,7 @@ def download_serpapi(config_file: AnyPath):
     parent_folder = scb.global_config["path"]["parent_folder"]
     sdl = SerpAPIDownload(parent_folder=parent_folder, snapshot_date=today)
 
-    wait_seconds_min_max = (0, 1)
+    wait_seconds_min_max = (wait_seconds_min, wait_seconds_max)
 
     for c in scb:
         try:
