@@ -1104,7 +1104,12 @@
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
-<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SerpAPIDownload</span><span class="p">:</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SerpAPIDownload</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Download trend using config</span>
 
 <span class="sd">    :params parent_folder: parent folder for the data</span>
@@ -1143,6 +1148,11 @@
             <span class="n">serpapi_params</span><span class="o">=</span><span class="n">api_params</span><span class="p">,</span> <span class="n">extra_metadata</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">extra_metadata</span>
         <span class="p">)</span>
 
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Saving raw json format ...&quot;</span><span class="p">)</span>
+        <span class="n">sj</span> <span class="o">=</span> <span class="n">StoreJSON</span><span class="p">(</span><span class="n">target_folder</span><span class="o">=</span><span class="n">target_folder</span><span class="p">,</span> <span class="n">snapshot_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshot_date</span><span class="p">)</span>
+        <span class="n">sj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="n">sst</span><span class="o">.</span><span class="n">search_results</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">])</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Saving dataframe ...&quot;</span><span class="p">)</span>
         <span class="n">sdf</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sst</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">])</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved to </span><span class="si">{</span><span class="n">target_folder</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -1231,7 +1241,12 @@
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
-<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SerpAPIConfig</span><span class="p">):</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SerpAPIConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :param config: config for the keyword</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1254,6 +1269,11 @@
         <span class="n">serpapi_params</span><span class="o">=</span><span class="n">api_params</span><span class="p">,</span> <span class="n">extra_metadata</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">extra_metadata</span>
     <span class="p">)</span>
 
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Saving raw json format ...&quot;</span><span class="p">)</span>
+    <span class="n">sj</span> <span class="o">=</span> <span class="n">StoreJSON</span><span class="p">(</span><span class="n">target_folder</span><span class="o">=</span><span class="n">target_folder</span><span class="p">,</span> <span class="n">snapshot_date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshot_date</span><span class="p">)</span>
+    <span class="n">sj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">records</span><span class="o">=</span><span class="n">sst</span><span class="o">.</span><span class="n">search_results</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">])</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Saving dataframe ...&quot;</span><span class="p">)</span>
     <span class="n">sdf</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sst</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">])</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved to </span><span class="si">{</span><span class="n">target_folder</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -1353,7 +1373,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">extra_metadata</span> <span class="o">=</span> <span class="n">extra_metadata</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span> <span class="nf">search_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">search_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="n">api_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serpapi_params</span>
 
         <span class="n">search</span> <span class="o">=</span> <span class="n">GoogleSearch</span><span class="p">(</span><span class="n">api_params</span><span class="p">)</span>
