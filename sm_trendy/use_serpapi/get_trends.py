@@ -33,7 +33,7 @@ class SerpAPISingleTrend:
         self.extra_metadata = extra_metadata
 
     @cached_property
-    def search_results(self):
+    def search_results(self) -> Dict:
         api_params = self.serpapi_params
 
         search = GoogleSearch(api_params)
@@ -128,7 +128,7 @@ class SerpAPIDownload:
 
         logger.debug("Saving raw json format ...")
         sj = StoreJSON(target_folder=target_folder, snapshot_date=self.snapshot_date)
-        sj.save(records=sst.search_results, formats="json")
+        sj.save(records=sst.search_results, formats=["json"])
 
         logger.debug("Saving dataframe ...")
         sdf.save(sst, formats=["csv", "parquet"])
