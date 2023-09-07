@@ -1,4 +1,4 @@
-name: Download Google Trend
+name: Download Google Trend DE Samples
 
 on:
   schedule:
