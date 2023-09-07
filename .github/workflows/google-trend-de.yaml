@@ -2,7 +2,7 @@ name: Download Google Trend
 
 on:
   schedule:
-    - cron:  '0 10 * * 2' # every tuesday
+    - cron: '0 10 * * 2' # every tuesday
   workflow_dispatch:
     inputs:
       name:

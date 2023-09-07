@@ -2,7 +2,7 @@ name: Download Google Trend Small Appliances in the US
 
 on:
   schedule:
-    - cron:  '0 30 * * 2' # every tuesday
+    - cron: '0 30 * * 2' # every tuesday
   workflow_dispatch:
     inputs:
       name:
