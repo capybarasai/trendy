@@ -180,7 +180,7 @@ class StoreJSON:
     def save(
         self,
         records: Any,
-        formats: Optional[List[Literal["json"]]],
+        formats: Optional[List[Literal["json"]]] = ["json"],
     ):
         """
         Save the trend results

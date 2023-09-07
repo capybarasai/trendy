@@ -8,7 +8,7 @@ from loguru import logger
 from serpapi import GoogleSearch
 
 from sm_trendy.use_serpapi.config import SerpAPIConfig, SerpAPIParams
-from sm_trendy.utilities.storage import StoreDataFrame
+from sm_trendy.utilities.storage import StoreDataFrame, StoreJSON
 
 params = {
     "api_key": "b6eec35caefee2b187dbb303b4ab1092e513d7e8a8ded4359cc22d03b9bdeba2",
@@ -33,7 +33,7 @@ class SerpAPISingleTrend:
         self.extra_metadata = extra_metadata
 
     @cached_property
-    def search_results(self):
+    def search_results(self) -> Dict:
         api_params = self.serpapi_params
 
         search = GoogleSearch(api_params)
@@ -126,5 +126,10 @@ class SerpAPIDownload:
             serpapi_params=api_params, extra_metadata=config.extra_metadata
         )
 
+        logger.debug("Saving raw json format ...")
+        sj = StoreJSON(target_folder=target_folder, snapshot_date=self.snapshot_date)
+        sj.save(records=sst.search_results, formats=["json"])
+
+        logger.debug("Saving dataframe ...")
         sdf.save(sst, formats=["csv", "parquet"])
         logger.info(f"Saved to {target_folder}")
