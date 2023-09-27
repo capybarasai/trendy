@@ -78,6 +78,7 @@ nav:
   - "Tutorials":
     - "Introduction": tutorials/index.md
     - "Use SerpAPI": tutorials/use_serpapi.md
+    - "Aggregate Data": "tutorials/aggregate_trends.md"
   - References:
     - "Introduction": references/index.md
     - "Utilities":
