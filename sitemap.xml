@@ -81,6 +81,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://capybarasai.github.io/trendy/tutorials/aggregate_trends/</loc>
+         <lastmod>2023-09-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://capybarasai.github.io/trendy/tutorials/use_serpapi/</loc>
          <lastmod>2023-09-27</lastmod>
          <changefreq>daily</changefreq>
