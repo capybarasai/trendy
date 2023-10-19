@@ -1,4 +1,5 @@
 import datetime
+import os
 from functools import cached_property
 from typing import Dict, Optional, Union
 
@@ -11,7 +12,7 @@ from sm_trendy.use_serpapi.config import SerpAPIConfig, SerpAPIParams
 from sm_trendy.utilities.storage import StoreDataFrame, StoreJSON
 
 params = {
-    "api_key": "b6eec35caefee2b187dbb303b4ab1092e513d7e8a8ded4359cc22d03b9bdeba2",
+    "api_key": os.environ["SERPAPI_KEY"],
     "engine": "google_trends",
     "q": "Coffee",
     "geo": "DE",
