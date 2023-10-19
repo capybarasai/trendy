@@ -11,20 +11,6 @@ from serpapi import GoogleSearch
 from sm_trendy.use_serpapi.config import SerpAPIConfig, SerpAPIParams
 from sm_trendy.utilities.storage import StoreDataFrame, StoreJSON
 
-params = {
-    "api_key": os.environ["SERPAPI_KEY"],
-    "engine": "google_trends",
-    "q": "Coffee",
-    "geo": "DE",
-    "data_type": "TIMESERIES",
-    "tz": "120",
-    "cat": "0",
-    "date": "today 5-y",
-}
-
-search = GoogleSearch(params)
-results = search.get_dict()
-
 
 class SerpAPISingleTrend:
     def __init__(
